@@ -1,0 +1,17 @@
+eclipse.preferences.version=1
+encoding//src/codegen/CodeGen.java=ISO-8859-1
+encoding//src/parser/langX++.jj=ISO-8859-1
+encoding//src/recovery/First.java=ISO-8859-1
+encoding//src/recovery/ParseEOFException.java=ISO-8859-1
+encoding//src/recovery/RecoverySet.java=ISO-8859-1
+encoding//src/semanalysis/ClassCheck.java=ISO-8859-1
+encoding//src/semanalysis/TypeCheck.java=ISO-8859-1
+encoding//src/semanalysis/VarCheck.java=ISO-8859-1
+encoding//src/semanalysis/type.java=ISO-8859-1
+encoding//src/symtable/EntryClass.java=ISO-8859-1
+encoding//src/symtable/EntryMethod.java=ISO-8859-1
+encoding//src/symtable/EntryRec.java=ISO-8859-1
+encoding//src/symtable/EntrySimple.java=ISO-8859-1
+encoding//src/symtable/EntryTable.java=ISO-8859-1
+encoding//src/symtable/EntryVar.java=ISO-8859-1
+encoding/<project>=ISO-8859-1
