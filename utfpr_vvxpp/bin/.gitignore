@@ -1,7 +1,8 @@
-/codegen/
-/langXrt/
 /parser/
+/.gitignore
+/codegen/
 /recovery/
 /semanalysis/
-/symtable/
 /syntacticTree/
+/langXrt/
+/symtable/

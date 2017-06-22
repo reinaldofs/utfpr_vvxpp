@@ -6,7 +6,7 @@ import syntacticTree.*;
 
 
 public class ClassCheck {
-    Symtable Maintable; // tabela de mais alto nível
+    Symtable Maintable; // tabela de mais alto nivel
     protected Symtable Curtable; // apontador para a tabela corrente
     int foundSemanticError; // contador de erros encontrados
 
@@ -15,7 +15,7 @@ public class ClassCheck {
 
         foundSemanticError = 0;
         Maintable = new Symtable(); // cria tabela principal
-        k = new EntrySimple("int"); // insere os tipos básicos da linguagem
+        k = new EntrySimple("int"); // insere os tipos basicos da linguagem
         Maintable.add(k);
         k = new EntrySimple("string");
         Maintable.add(k);
@@ -23,9 +23,9 @@ public class ClassCheck {
 
     public void ClassCheckRoot(ListNode x) throws SemanticException {
         Curtable = Maintable; // tabela corrente = principal
-        ClassCheckClassDeclListNode(x); // chama análise para raiz da árvore
+        ClassCheckClassDeclListNode(x); // chama analise para raiz da arvore
 
-        if (foundSemanticError != 0) { // se houve erro, lança exceção
+        if (foundSemanticError != 0) { // se houve erro, lanca excecao
             throw new SemanticException(foundSemanticError +
                 " Semantic Errors found (phase 1)");
         }
@@ -38,7 +38,7 @@ public class ClassCheck {
 
         try {
             ClassCheckClassDeclNode((ClassDeclNode) x.node);
-        } catch (SemanticException e) { // se um erro ocorreu na classe, da a msg mas faz a análise p/ próxima
+        } catch (SemanticException e) { // se um erro ocorreu na classe, da a msg mas faz a analise p/ proxima
             System.out.println(e.getMessage());
             foundSemanticError++;
         }
@@ -58,7 +58,7 @@ public class ClassCheck {
         // procura classe na tabela
         nc = (EntryClass) Curtable.classFindUp(x.name.image);
 
-        if (nc != null) // já declarada, ERRO
+        if (nc != null) // ja declarada, ERRO
          {
             throw new SemanticException(x.name,
                 "Class " + x.name.image + " already declared");

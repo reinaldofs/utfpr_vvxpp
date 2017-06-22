@@ -2,12 +2,12 @@ package symtable;
 
 
 // lista de EntryClass, usada para representar os tipos de uma lista
-// de parâmetros
+// de parametros
 public class EntryRec extends EntryTable {
     public EntryTable type; // tipo de um objeto
-    public int dim; // dimensão
+    public int dim; // dimensao
     public EntryRec next; // apontador para o resto da lista
-    public int cont; // número de elementos a partir daquele elemento
+    public int cont; // numero de elementos a partir daquele elemento
 
     // cria elemento
     public EntryRec(EntryTable p, int d, int c) {
@@ -17,7 +17,7 @@ public class EntryRec extends EntryTable {
         next = null;
     }
 
-    // cria elemento e põe no início da lista
+    // cria elemento e poe no inicio da lista
     public EntryRec(EntryTable p, int d, int c, EntryRec t) {
         type = p;
         cont = c;
@@ -53,7 +53,7 @@ public class EntryRec extends EntryTable {
         return r;
     }
 
-    // devolve a representação da EntryRec na forma de string
+    // devolve a representacao da EntryRec na forma de string
     public String toStr() {
         String s;
 

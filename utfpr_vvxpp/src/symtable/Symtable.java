@@ -2,8 +2,8 @@ package symtable;
 
 public class Symtable {
     public EntryTable top; // apontador para o topo da tabela (mais recente)
-    public int scptr; // número que controla o escopo (aninhamento) corrente
-    public EntryClass levelup; // apontador para a entrada EntryClass de nível sup.
+    public int scptr; // numero que controla o escopo (aninhamento) corrente
+    public EntryClass levelup; // apontador para a entrada EntryClass de nivel sup.
 
     public Symtable() // cria uma tabela vazia
      {
@@ -12,28 +12,28 @@ public class Symtable {
         levelup = null;
     }
 
-    public Symtable(EntryClass up) // cria tabela vazia apontando para nível sup.
+    public Symtable(EntryClass up) // cria tabela vazia apontando para nivel sup.
      {
         top = null;
         scptr = 0;
         levelup = up;
     }
 
-    public void add(EntryTable x) // adiciona uma entrada à tabela
+    public void add(EntryTable x) // adiciona uma entrada a tabela
      {
         x.next = top; // inclui nova entrada no topo
         top = x;
-        x.scope = scptr; // atribui para a entrada o número do escopo
-        x.mytable = this; // faz a entrada apontar para a tabela à qual pertence
+        x.scope = scptr; // atribui para a entrada o numero do escopo
+        x.mytable = this; // faz a entrada apontar para a tabela a qual pertence
     }
 
     public void beginScope() {
-        scptr++; // inicia novo aninhamento de variáveis
+        scptr++; // inicia novo aninhamento de variaveis
     }
 
     public void endScope() {
         while ((top != null) && (top.scope == scptr))
-            top = top.next; // retira todas as variáveis do aninhamento corrente
+            top = top.next; // retira todas as variaveis do aninhamento corrente
 
         scptr--; // finaliza aninhamento corrente
     }
@@ -46,21 +46,21 @@ public class Symtable {
 
         // para cada elemento da tabela corrente
         while (p != null) {
-            // verifica se é uma entrada de classe ou tipo simples e compara o nome
+            // verifica se e uma entrada de classe ou tipo simples e compara o nome
             if (((p instanceof EntryClass) || (p instanceof EntrySimple)) &&
                     p.name.equals(x)) {
                 return p;
             }
 
-            p = p.next; // próxima entrada
+            p = p.next; // proxima entrada
         }
 
-        if (levelup == null) { // se não achou e é o nível mais externo 
+        if (levelup == null) { // se nao achou e e o nivel mais externo 
 
             return null; // retorna null
         }
 
-        // procura no nível mais externo 
+        // procura no nivel mais externo 
         return levelup.mytable.classFindUp(x);
     }
 
@@ -140,11 +140,11 @@ public class Symtable {
 
         // para cada entrada da tabela
         while (p != null) {
-            // verifica se tipo é EntryMethod e compara o nome
+            // verifica se tipo e EntryMethod e compara o nome
             if (p instanceof EntryMethod && p.name.equals(x)) {
                 EntryMethod t = (EntryMethod) p;
 
-                // compara os parâmetros
+                // compara os parametros
                 if (t.param == null) {
                     if (r == null) {
                         return t;
@@ -156,9 +156,9 @@ public class Symtable {
                 }
             }
 
-            p = p.next; // próxima entrada
+            p = p.next; // proxima entrada
         }
 
-        return null; // não achou
+        return null; // nao achou
     }
 }

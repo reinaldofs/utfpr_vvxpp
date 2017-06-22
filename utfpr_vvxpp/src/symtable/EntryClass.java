@@ -1,14 +1,14 @@
 package symtable;
 
 
-// classe corresponde a uma declaracão de classe na tab. de símbolos
+// classe corresponde a uma declaracao de classe na tab. de simbolos
 public class EntryClass extends EntryTable {
-    public Symtable nested; // tabela para declaracão de elementos aninhados
-    public EntryClass parent; // entrada correspondente à superclasse
+    public Symtable nested; // tabela para declaracao de elementos aninhados
+    public EntryClass parent; // entrada correspondente a superclasse
 
     public EntryClass(String n, Symtable t) {
         name = n; // nome da classe declarada
-        nested = new Symtable(this); // tabela onde inserir vars, métodos ou classes
+        nested = new Symtable(this); // tabela onde inserir vars, metodos ou classes
         parent = null; // sua superclasse
     }
 
@@ -22,12 +22,12 @@ public class EntryClass extends EntryTable {
         up = (EntryClass) t.levelup;
 
         if (up == null) {
-            p = ""; // não é uma classe aninhada
+            p = ""; // nao e uma classe aninhada
         } else {
             p = up.completeName() + "$"; // classe aninhada
         }
 
-        return p + name; // retorna nome nível superior $ nome da classe
+        return p + name; // retorna nome nivel superior $ nome da classe
     }
 
     public String dscJava() // devolve descritor de tipo

@@ -1,16 +1,16 @@
 /*************************************************************************
 Arquivo a ser processado pelo programa JavaCC.
-Contém:
-       - descrição do analisador léxico para a linguagem X++ 
-       - descrição do analisador sintático para a linguagem X++
-       - recuperação de erros sintáticos
-       - construção da árvore sintática
-       - impressão da árvore sintática
-       - análise semântica (1a., 2a. e 3a. fases)
-       - geração de código
+Contem:
+       - descricao do analisador lexico para a linguagem X++ 
+       - descricao do analisador sintatico para a linguagem X++
+       - recuperacao de erros sintaticos
+       - construcao da arvore sintatica
+       - impressao da arvore sintatica
+       - analise semantica (1a., 2a. e 3a. fases)
+       - geracao de codigo
 
 Autor: Marcio Delamaro
-Este programa é parte do livro "Construção de compiladores usando ferra..."
+Este programa e parte do livro "Construcao de compiladores usando ferra..."
 ************************************************************************/
 
 options {
@@ -22,20 +22,20 @@ PARSER_BEGIN(langX)
 package parser;
 
 import java.io.*;
-import recovery.*;   // importa as classes de recuperação de erros do AS
-import syntacticTree.*; // importa as classes dos nós da árvore sintática
-import semanalysis.*;   // importa as classes para a análise semântica
-import codegen.*;       // importa as classes para geração de código
+import recovery.*;   // importa as classes de recuperacao de erros do AS
+import syntacticTree.*; // importa as classes dos nos da arvore sintatica
+import semanalysis.*;   // importa as classes para a analise semantica
+import codegen.*;       // importa as classes para geracao de codigo
  
 
 public class langX {
 final static String Version = "X++ Compiler - Version 1.0 - 2004";
-int contParseError = 0;           // contador de erros sintáticos
-boolean debug_recovery;   // controla verbose de recuperação de erros
+int contParseError = 0;           // contador de erros sintaticos
+boolean debug_recovery;   // controla verbose de recuperacao de erros
 Token lastError = null;
 
 
-// Define o método "main" da classe langX.  
+// Define o metodo "main" da classe langX.  
   public  static void main(String args[]) throws ParseException
   {
   boolean debug_as = false;
@@ -43,12 +43,12 @@ Token lastError = null;
   boolean print_tree = false;
 
     String filename = ""; // nome do arquivo a ser analisado
-    langX parser;         // analisador léxico/sintático
+    langX parser;         // analisador lexico/sintatico
     int i;
     boolean ms = false;
 
     System.out.println(Version);
-    // lê os parâmetros passados para o compilador
+    // le os parametros passados para o compilador
     for (i = 0; i < args.length - 1; i++)
     {
         if (args[i].equals("-debug_AS") )
@@ -68,12 +68,12 @@ Token lastError = null;
     }
 
     if (args[i].equals("-"))
-    {   // lê da entrada padrão      
+    {   // le da entrada padrao      
         System.out.println("Reading from standard input . . .");
         parser = new langX(System.in); // cria AS
      }
      else 
-    {   // lê do arquivo
+    {   // le do arquivo
         filename = args[args.length-1];  
         System.out.println("Reading from file " + filename + " . . .");
         try {  // cria AS
@@ -90,7 +90,7 @@ Token lastError = null;
     if (! debug_as) parser.disable_tracing(); // desab. verbose do AS
 
     try {
-        root = parser.program();   // chama o método que faz a análise
+        root = parser.program();   // chama o metodo que faz a analise
     }
     catch (ParseEOFException e)
     {
@@ -103,12 +103,12 @@ Token lastError = null;
      }
 
     if ( parser.token_source.foundLexError() // verifica se pode operar sobre
-          + parser.contParseError == 0)      // a árvore sintática
+          + parser.contParseError == 0)      // a arvore sintatica
     {
-        if (print_tree) // exibir a árvore
+        if (print_tree) // exibir a arvore
         {
             PrintTree prt = new PrintTree();
-            prt.printRoot(root);     // chama método para imprimir árvore
+            prt.printRoot(root);     // chama metodo para imprimir arvore
         }
         CodeGen tc = new CodeGen();
         try {
@@ -141,9 +141,9 @@ String s;
 }
 
 
-boolean eof;    // variável que indica se EOF foi alcançado
-// o método abaixo consome tokens ate alcançar um que pertença ao conjunto
-// de sincronização
+boolean eof;    // variavel que indica se EOF foi alcancado
+// o metodo abaixo consome tokens ate alcancar um que pertenca ao conjunto
+// de sincronizacao
 
 void consumeUntil(RecoverySet g,
                  ParseException e,
@@ -152,17 +152,17 @@ void consumeUntil(RecoverySet g,
 {
 Token tok;
 
-   if ( debug_recovery) // informação sobre a recuperação
+   if ( debug_recovery) // informacao sobre a recuperacao
    {
        System.out.println();
        System.out.println("*** " + met + " ***");
        System.out.println("     Syncronizing Set: " + g);
    }
 
-   if (g == null) throw e; // se o conjunto é null, propaga a exceção
+   if (g == null) throw e; // se o conjunto e null, propaga a excecao
 
    tok = getToken(1); // pega token corrente
-   while ( ! eof )  // se não chegou ao fim do arquivo
+   while ( ! eof )  // se nao chegou ao fim do arquivo
    {
         if ( g.contains(tok.kind ) ) //achou um token no conjunto
         {
@@ -173,7 +173,7 @@ Token tok;
         }
         if (debug_recovery)
              System.out.println("     Ignoring token: " + im(tok.kind));
-        getNextToken();     // pega próximo token       
+        getNextToken();     // pega proximo token       
         tok = getToken(1);
         if (tok.kind == EOF && ! g.contains(EOF) ) // fim da entrada?   
             eof = true;
@@ -182,7 +182,7 @@ Token tok;
    {
         System.out.println(e.getMessage());
         lastError = tok;
-        contParseError++;  // incrementa número de erros
+        contParseError++;  // incrementa numero de erros
    }
    if ( eof ) throw new ParseEOFException("EOF found prematurely.");
 }
@@ -203,7 +203,7 @@ public int foundLexError()
 }
 
 
-/* Espacos a serem desprezados no início de cada token */
+/* Espacos a serem desprezados no inicio de cada token */
 
 SKIP :
 {
@@ -261,7 +261,7 @@ TOKEN :
 
 TOKEN :
 {
-  < int_constant:(  // números decimais, octais, hexadecimais ou binários
+  < int_constant:(  // numeros decimais, octais, hexadecimais ou binarios
                   (["0"-"9"] (["0"-"9"])* ) | 
                   (["0"-"7"] (["0"-"7"])* ["o", "O"] ) |
                   (["0"-"9"] (["0"-"7","A"-"F","a"-"f"])* ["h", "H"] ) |
@@ -285,7 +285,7 @@ TOKEN :
   < #DIGIT:["0"-"9"] >
 }
 
-/* Símbolos especiais */
+/* Simbolos especiais */
 
 TOKEN :
 {
@@ -318,7 +318,7 @@ TOKEN :
 | < REM: "%" >
 }
 
-/* Trata os erros léxicos */
+/* Trata os erros lexicos */
 SPECIAL_TOKEN :
 {
 <INVALID_LEXICAL: 

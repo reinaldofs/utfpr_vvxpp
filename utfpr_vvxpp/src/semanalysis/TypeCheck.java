@@ -9,13 +9,13 @@ import syntacticTree.*;
 
 public class TypeCheck extends VarCheck {
     int nesting; // controla o nivel de aninhamento em comandos repetitivos
-    protected int Nlocals; // conta número de variáveis locais num método
-    type Returntype; // tipo de retorno de um método
+    protected int Nlocals; // conta numero de variaveis locais num metodo
+    type Returntype; // tipo de retorno de um metodo
     protected final EntrySimple STRING_TYPE;
     protected final EntrySimple INT_TYPE;
     protected final EntrySimple NULL_TYPE;
-    protected EntryMethod CurMethod; // método sendo analisado
-    boolean cansuper; // indica se chamada super é permitida
+    protected EntryMethod CurMethod; // metodo sendo analisado
+    boolean cansuper; // indica se chamada super e permitida
 
     public TypeCheck() {
         super();
@@ -28,10 +28,10 @@ public class TypeCheck extends VarCheck {
     }
 
     public void TypeCheckRoot(ListNode x) throws SemanticException {
-        VarCheckRoot(x); // faz análise das variáveis e métodos
-        TypeCheckClassDeclListNode(x); // faz análise do corpo dos métodos
+        VarCheckRoot(x); // faz analise das variaveis e metodos
+        TypeCheckClassDeclListNode(x); // faz analise do corpo dos metodos
 
-        if (foundSemanticError != 0) { // se houve erro, lança exceção
+        if (foundSemanticError != 0) { // se houve erro, lanca excecao
             throw new SemanticException(foundSemanticError +
                 " Semantic Errors found (phase 3)");
         }
@@ -45,7 +45,7 @@ public class TypeCheck extends VarCheck {
 
         try {
             TypeCheckClassDeclNode((ClassDeclNode) x.node);
-        } catch (SemanticException e) { // se um erro ocorreu na classe, da a msg mas faz a análise p/ próxima
+        } catch (SemanticException e) { // se um erro ocorreu na classe, da a msg mas faz a analise p/ proxima
             System.out.println(e.getMessage());
             foundSemanticError++;
         }
@@ -53,7 +53,7 @@ public class TypeCheck extends VarCheck {
         TypeCheckClassDeclListNode(x.next);
     }
 
-    // verifica se existe referência circular de superclasses
+    // verifica se existe referencia circular de superclasses
     private boolean circularSuperclass(EntryClass orig, EntryClass e) {
         if (e == null) {
             return false;
@@ -66,7 +66,7 @@ public class TypeCheck extends VarCheck {
         return circularSuperclass(orig, e.parent);
     }
 
-    // ------------- declaracão de classe -------------------------
+    // ------------- declaracao de classe -------------------------
     public void TypeCheckClassDeclNode(ClassDeclNode x)
         throws SemanticException {
         Symtable temphold = Curtable; // salva tabela corrente
@@ -78,7 +78,7 @@ public class TypeCheck extends VarCheck {
 
         nc = (EntryClass) Curtable.classFindUp(x.name.image);
 
-        if (circularSuperclass(nc, nc.parent)) { // se existe declaracão circular, ERRO
+        if (circularSuperclass(nc, nc.parent)) { // se existe declaracao circular, ERRO
             nc.parent = null;
             throw new SemanticException(x.position, "Circular inheritance");
         }
@@ -100,7 +100,7 @@ public class TypeCheck extends VarCheck {
         TypeCheckMethodDeclListNode(x.mlist);
     }
 
-    // ---------------- Lista de declaracões de variáveis ----------------
+    // ---------------- Lista de declaracoes de variaveis ----------------
     public void TypeCheckVarDeclListNode(ListNode x) {
         if (x == null) {
             return;
@@ -116,7 +116,7 @@ public class TypeCheck extends VarCheck {
         TypeCheckVarDeclListNode(x.next);
     }
 
-    // -------------------- Declaracão de variável --------------------
+    // -------------------- Declaracao de variavel --------------------
     public void TypeCheckVarDeclNode(VarDeclNode x) throws SemanticException {
         ListNode p;
         EntryVar l;
@@ -128,10 +128,10 @@ public class TypeCheck extends VarCheck {
         for (p = x.vars; p != null; p = p.next) {
             VarNode q = (VarNode) p.node;
 
-            // tenta pegar 2a. ocorrência da variável na tabela
+            // tenta pegar 2a. ocorrencia da variavel na tabela
             l = Curtable.varFind(q.position.image, 2);
 
-            // se conseguiu a variável foi definida 2 vezes, ERRO
+            // se conseguiu a variavel foi definida 2 vezes, ERRO
             if (l != null) {
                 throw new SemanticException(q.position,
                     "Variable " + q.position.image + " already declared");
@@ -155,7 +155,7 @@ public class TypeCheck extends VarCheck {
         TypeCheckConstructDeclListNode(x.next);
     }
 
-    // ------------------ Declaracão de construtor -----------------
+    // ------------------ Declaracao de construtor -----------------
     public void TypeCheckConstructDeclNode(ConstructDeclNode x)
         throws SemanticException {
         EntryMethod t;
@@ -175,16 +175,16 @@ public class TypeCheck extends VarCheck {
         p = x.body.param;
         n = 0;
 
-        // monta a lista com os tipos dos parâmetros
+        // monta a lista com os tipos dos parametros
         while (p != null) {
-            q = (VarDeclNode) p.node; // q = nó com a declaracão do parâmetro
-            u = (VarNode) q.vars.node; // u = nó com o nome e dimensão
+            q = (VarDeclNode) p.node; // q = no com a declaracao do parametro
+            u = (VarNode) q.vars.node; // u = no com o nome e dimensao
             n++;
 
             // acha a entrada do tipo na tabela
             e = Curtable.classFindUp(q.position.image);
 
-            // constrói a lista com os tipos dos parâmetros
+            // constroi a lista com os tipos dos parametros
             r = new EntryRec(e, u.dim, n, r);
             p = p.next;
         }
@@ -195,7 +195,7 @@ public class TypeCheck extends VarCheck {
 
         // acha a entrada do construtor na tabela
         t = Curtable.methodFind("constructor", r);
-        CurMethod = t; // guarda método corrente
+        CurMethod = t; // guarda metodo corrente
 
         // inicia um novo escopo na tabela corrente
         Curtable.beginScope();
@@ -204,16 +204,16 @@ public class TypeCheck extends VarCheck {
         thisclass = (EntryClass) Curtable.levelup;
 
         thisvar = new EntryVar("this", thisclass, 0, 0);
-        Curtable.add(thisvar); // inclui variável local "this" com número 0
-        Returntype = null; // tipo de retorno do método = nenhum
-        nesting = 0; // nível de aninhamento de comandos for
-        Nlocals = 1; // inicializa numero de variáveis locais
+        Curtable.add(thisvar); // inclui variavel local "this" com numero 0
+        Returntype = null; // tipo de retorno do metodo = nenhum
+        nesting = 0; // nivel de aninhamento de comandos for
+        Nlocals = 1; // inicializa numero de variaveis locais
         TypeCheckMethodBodyNode(x.body);
-        t.totallocals = Nlocals; // número de variávamos locais do método
-        Curtable.endScope(); // retira variáveis locais da tabela
+        t.totallocals = Nlocals; // numero de variavamos locais do metodo
+        Curtable.endScope(); // retira variaveis locais da tabela
     }
 
-    // -------------------------- Lista de métodos -----------------
+    // -------------------------- Lista de metodos -----------------
     public void TypeCheckMethodDeclListNode(ListNode x) {
         if (x == null) {
             return;
@@ -229,7 +229,7 @@ public class TypeCheck extends VarCheck {
         TypeCheckMethodDeclListNode(x.next);
     }
 
-    // --------------------- Declaracão de método ---------------
+    // --------------------- Declaracao de metodo ---------------
     public void TypeCheckMethodDeclNode(MethodDeclNode x)
         throws SemanticException {
         EntryMethod t;
@@ -249,16 +249,16 @@ public class TypeCheck extends VarCheck {
         p = x.body.param;
         n = 0;
 
-        // monta a lista com os tipos dos parâmetros
+        // monta a lista com os tipos dos parametros
         while (p != null) {
-            q = (VarDeclNode) p.node; // q = nó com a declaracão do parâmetro
-            u = (VarNode) q.vars.node; // u = nó com o nome e dimensão
+            q = (VarDeclNode) p.node; // q = no com a declaracao do parametro
+            u = (VarNode) q.vars.node; // u = no com o nome e dimensao
             n++;
 
             // acha a entrada do tipo na tabela
             e = Curtable.classFindUp(q.position.image);
 
-            // constrói a lista com os tipos dos parâmetros
+            // constroi a lista com os tipos dos parametros
             r = new EntryRec(e, u.dim, n, r);
             p = p.next;
         }
@@ -267,11 +267,11 @@ public class TypeCheck extends VarCheck {
             r = r.inverte();
         }
 
-        // acha a entrada do método na tabela
+        // acha a entrada do metodo na tabela
         t = Curtable.methodFind(x.name.image, r);
-        CurMethod = t; // guarda método corrente
+        CurMethod = t; // guarda metodo corrente
 
-        // Returntype = tipo de retorno do método
+        // Returntype = tipo de retorno do metodo
         Returntype = new type(t.type, t.dim);
 
         // inicia um novo escopo na tabela corrente
@@ -281,34 +281,34 @@ public class TypeCheck extends VarCheck {
         thisclass = (EntryClass) Curtable.levelup;
 
         thisvar = new EntryVar("this", thisclass, 0, 0);
-        Curtable.add(thisvar); // inclui variável local "this" na tabela
+        Curtable.add(thisvar); // inclui variavel local "this" na tabela
 
-        nesting = 0; // nível de aninhamento de comandos for
-        Nlocals = 1; // inicializa número de variáveis locais
+        nesting = 0; // nivel de aninhamento de comandos for
+        Nlocals = 1; // inicializa numero de variaveis locais
         TypeCheckMethodBodyNode(x.body);
-        t.totallocals = Nlocals; // número de variáveis locais declaradas
-        Curtable.endScope(); // retira variáveis locais da tabela corrente
+        t.totallocals = Nlocals; // numero de variaveis locais declaradas
+        Curtable.endScope(); // retira variaveis locais da tabela corrente
     }
 
-    //-------------------------- Corpo de método ----------------------
+    //-------------------------- Corpo de metodo ----------------------
     public void TypeCheckMethodBodyNode(MethodBodyNode x) {
         if (x == null) {
             return;
         }
 
-        TypeCheckLocalVarDeclListNode(x.param); // trata parâmetro como var. local
+        TypeCheckLocalVarDeclListNode(x.param); // trata parametro como var. local
 
         cansuper = false;
 
         if (Curtable.levelup.parent != null) { // existe uma superclasse para a classe corrente ?
-                                               // acha primeiro comando do método
+                                               // acha primeiro comando do metodo
 
             StatementNode p = x.stat;
 
             while (p instanceof BlockNode)
                 p = (StatementNode) ((BlockNode) p).stats.node;
 
-            cansuper = p instanceof SuperNode; // verifica se é chamada super
+            cansuper = p instanceof SuperNode; // verifica se e chamada super
         }
 
         try {
@@ -319,7 +319,7 @@ public class TypeCheck extends VarCheck {
         }
     }
 
-    //------------------------ lista de variáveis locais ----------------------
+    //------------------------ lista de variaveis locais ----------------------
     public void TypeCheckLocalVarDeclListNode(ListNode x) {
         if (x == null) {
             return;
@@ -335,7 +335,7 @@ public class TypeCheck extends VarCheck {
         TypeCheckLocalVarDeclListNode(x.next);
     }
 
-    //---------------------- Declaracão de variáveis locais ----------------------
+    //---------------------- Declaracao de variaveis locais ----------------------
     public void TypeCheckLocalVarDeclNode(VarDeclNode x)
         throws SemanticException {
         ListNode p;
@@ -348,10 +348,10 @@ public class TypeCheck extends VarCheck {
             return;
         }
 
-        // procura tipo da declaracão na tabela de símbolos
+        // procura tipo da declaracao na tabela de simbolos
         c = Curtable.classFindUp(x.position.image);
 
-        // se não achou, ERRO
+        // se nao achou, ERRO
         if (c == null) {
             throw new SemanticException(x.position,
                 "Class " + x.position.image + " not found.");
@@ -361,21 +361,21 @@ public class TypeCheck extends VarCheck {
             q = (VarNode) p.node;
             l = Curtable.varFind(q.position.image);
 
-            // se variável já existe é preciso saber que tipo de variável é
+            // se variavel ja existe e preciso saber que tipo de variavel e
             if (l != null) {
-                // primeiro verifica se é local, definida no escopo corrente
+                // primeiro verifica se e local, definida no escopo corrente
                 if (l.scope == Curtable.scptr) { // se for, ERRO
                     throw new SemanticException(q.position,
                         "Variable " + p.position.image + " already declared");
                 }
 
-                // c.c. verifica se é uma variável de classe
-                if (l.localcount < 0) { // se for dá uma advertência
+                // c.c. verifica se e uma variavel de classe
+                if (l.localcount < 0) { // se for da uma advertencia
                     System.out.println("Line " + q.position.beginLine +
                         " Column " + q.position.beginColumn +
                         " Warning: Variable " + q.position.image +
                         " hides a class variable");
-                } else { // senão, é uma variável local em outro escopo
+                } else { // senao, e uma variavel local em outro escopo
                     System.out.println("Line " + q.position.beginLine +
                         " Column " + q.position.beginColumn +
                         " Warning: Variable " + q.position.image +
@@ -383,14 +383,14 @@ public class TypeCheck extends VarCheck {
                 }
             }
 
-            // insere a variável local na tabela corrente
+            // insere a variavel local na tabela corrente
             Curtable.add(new EntryVar(q.position.image, c, q.dim, Nlocals++));
         }
     }
 
     // --------------------------- Comando composto ----------------------
     public void TypeCheckBlockNode(BlockNode x) {
-        Curtable.beginScope(); // início de um escopo
+        Curtable.beginScope(); // inicio de um escopo
         TypeCheckStatementListNode(x.stats);
         Curtable.endScope(); // final do escopo, libera vars locais
     }
@@ -419,10 +419,10 @@ public class TypeCheck extends VarCheck {
             return;
         }
 
-        // t = tipo e dimensão do resultado da expressão
+        // t = tipo e dimensao do resultado da expressao
         t = TypeCheckExpreNode(x.expr);
 
-        // tipo tem que ser string e dimensão tem que ser 0
+        // tipo tem que ser string e dimensao tem que ser 0
         if ((t.ty != STRING_TYPE) || (t.dim != 0)) {
             throw new SemanticException(x.position, "string expression required");
         }
@@ -436,25 +436,25 @@ public class TypeCheck extends VarCheck {
             return;
         }
 
-        // verifica se o nó filho tem um tipo válido
+        // verifica se o no filho tem um tipo valido
         if (!(x.expr instanceof DotNode || x.expr instanceof IndexNode ||
                 x.expr instanceof VarNode)) {
             throw new SemanticException(x.position,
                 "Invalid expression in read statement");
         }
 
-        // verifica se e uma atribuição para "this"
+        // verifica se e uma atribuicao para "this"
         if (x.expr instanceof VarNode) {
             EntryVar v = Curtable.varFind(x.expr.position.image);
 
-            if ((v != null) && (v.localcount == 0)) // é a variável local 0?
+            if ((v != null) && (v.localcount == 0)) // e a variavel local 0?
              {
                 throw new SemanticException(x.position,
                     "Reading into variable " + " \"this\" is not legal");
             }
         }
 
-        // verifica se o tipo é string ou int
+        // verifica se o tipo e string ou int
         t = TypeCheckExpreNode(x.expr);
 
         if ((t.ty != STRING_TYPE) && (t.ty != INT_TYPE)) {
@@ -462,7 +462,7 @@ public class TypeCheck extends VarCheck {
                 "Invalid type. Must be int or string");
         }
 
-        // verifica se não é array
+        // verifica se nao e array
         if (t.dim != 0) {
             throw new SemanticException(x.position, "Cannot read array");
         }
@@ -476,15 +476,15 @@ public class TypeCheck extends VarCheck {
             return;
         }
 
-        // t = tipo e dimensão do resultado da expressão
+        // t = tipo e dimensao do resultado da expressao
         t = TypeCheckExpreNode(x.expr);
 
-        // verifica se é igual ao tipo do método corrente
-        if (t == null) { // t == null não tem expressão no return
+        // verifica se e igual ao tipo do metodo corrente
+        if (t == null) { // t == null nao tem expressao no return
 
             if (Returntype == null) {
                 return;
-            } else { // se Returntype != null e um método, então ERRO
+            } else { // se Returntype != null e um metodo, entao ERRO
                 throw new SemanticException(x.position,
                     "Return expression required");
             }
@@ -495,7 +495,7 @@ public class TypeCheck extends VarCheck {
             }
         }
 
-        // compara tipo e dimensão
+        // compara tipo e dimensao
         if ((t.ty != Returntype.ty) || (t.dim != Returntype.dim)) {
             throw new SemanticException(x.position, "Invalid return type");
         }
@@ -519,7 +519,7 @@ public class TypeCheck extends VarCheck {
                 "super must be first statement in the constructor");
         }
 
-        cansuper = false; // não permite outro super
+        cansuper = false; // nao permite outro super
 
         // p aponta para a entrada da superclasse da classe corrente
         EntryClass p = Curtable.levelup.parent;
@@ -529,14 +529,14 @@ public class TypeCheck extends VarCheck {
                 "No superclass for this class");
         }
 
-        // t.ty possui um EntryRec com os tipos dos parâmetros
+        // t.ty possui um EntryRec com os tipos dos parametros
         t = TypeCheckExpreListNode(x.args);
 
         // procura o construtor na tabela da superclasse
         EntryMethod m = p.nested.methodFindInclass("constructor",
                 (EntryRec) t.ty);
 
-        // se não achou, ERRO
+        // se nao achou, ERRO
         if (m == null) {
             throw new SemanticException(x.position,
                 "Constructor " + p.name + "(" +
@@ -544,10 +544,10 @@ public class TypeCheck extends VarCheck {
                 ") not found");
         }
 
-        CurMethod.hassuper = true; // indica que existe chamada a super no método
+        CurMethod.hassuper = true; // indica que existe chamada a super no metodo
     }
 
-    // ------------------------- Comando de atribuição -------------------
+    // ------------------------- Comando de atribuicao -------------------
     public void TypeCheckAtribNode(AtribNode x) throws SemanticException {
         type t1;
         type t2;
@@ -557,18 +557,18 @@ public class TypeCheck extends VarCheck {
             return;
         }
 
-        // verifica se o nó filho tem um tipo válido
+        // verifica se o no filho tem um tipo valido
         if (!(x.expr1 instanceof DotNode || x.expr1 instanceof IndexNode ||
                 x.expr1 instanceof VarNode)) {
             throw new SemanticException(x.position,
                 "Invalid left side of assignment");
         }
 
-        // verifica se é uma atribuição para "this"
+        // verifica se e uma atribuicao para "this"
         if (x.expr1 instanceof VarNode) {
             v = Curtable.varFind(x.expr1.position.image);
 
-            if ((v != null) && (v.localcount == 0)) // é a variável local 0?
+            if ((v != null) && (v.localcount == 0)) // e a variavel local 0?
              {
                 throw new SemanticException(x.position,
                     "Assigning to variable " + " \"this\" is not legal");
@@ -578,14 +578,14 @@ public class TypeCheck extends VarCheck {
         t1 = TypeCheckExpreNode(x.expr1);
         t2 = TypeCheckExpreNode(x.expr2);
 
-        // verifica tipos das expressões
-        // verifica dimensões
+        // verifica tipos das expressoes
+        // verifica dimensoes
         if (t1.dim != t2.dim) {
             throw new SemanticException(x.position,
                 "Invalid dimensions in assignment");
         }
 
-        // verifica se lado esquerdo é uma classe e direito é null, OK
+        // verifica se lado esquerdo e uma classe e direito e null, OK
         if (t1.ty instanceof EntryClass && (t2.ty == NULL_TYPE)) {
             return;
         }
@@ -598,12 +598,12 @@ public class TypeCheck extends VarCheck {
     }
 
     protected boolean isSubClass(EntryTable t1, EntryTable t2) {
-        // verifica se são o mesmo tipo (vale para tipos simples)
+        // verifica se sao o mesmo tipo (vale para tipos simples)
         if (t1 == t2) {
             return true;
         }
 
-        // verifica se são classes
+        // verifica se sao classes
         if (!(t1 instanceof EntryClass && t2 instanceof EntryClass)) {
             return false;
         }
@@ -661,7 +661,7 @@ public class TypeCheck extends VarCheck {
             return;
         }
 
-        // analisa inicialização
+        // analisa inicializacao
         try {
             TypeCheckStatementNode(x.init);
         } catch (SemanticException e) {
@@ -669,7 +669,7 @@ public class TypeCheck extends VarCheck {
             foundSemanticError++;
         }
 
-        // analisa expressão de controle
+        // analisa expressao de controle
         try {
             t = TypeCheckExpreNode(x.expr);
 
@@ -682,7 +682,7 @@ public class TypeCheck extends VarCheck {
             foundSemanticError++;
         }
 
-        // analisa expressão de incremento
+        // analisa expressao de incremento
         try {
             TypeCheckStatementNode(x.incr);
         } catch (SemanticException e) {
@@ -708,7 +708,7 @@ public class TypeCheck extends VarCheck {
             return;
         }
 
-        // verifica se está dentro de um for. Se não, ERRO
+        // verifica se esta dentro de um for. Se nao, ERRO
         if (nesting <= 0) {
             throw new SemanticException(x.position,
                 "break not in a for statement");
@@ -720,8 +720,8 @@ public class TypeCheck extends VarCheck {
         // nada a ser feito
     }
 
-    // ------------------ Expressões ----------------------------------------
-    // -------------------------- Alocação de objeto ------------------------
+    // ------------------ Expressoes ----------------------------------------
+    // -------------------------- Alocacao de objeto ------------------------
     public type TypeCheckNewObjectNode(NewObjectNode x)
         throws SemanticException {
         type t;
@@ -735,7 +735,7 @@ public class TypeCheck extends VarCheck {
         // procura a classe da qual se deseja criar um objeto
         c = Curtable.classFindUp(x.name.image);
 
-        // se não achou, ERRO
+        // se nao achou, ERRO
         if (c == null) {
             throw new SemanticException(x.position,
                 "Class " + x.name.image + " not found");
@@ -748,7 +748,7 @@ public class TypeCheck extends VarCheck {
         Symtable s = ((EntryClass) c).nested;
         p = s.methodFindInclass("constructor", (EntryRec) t.ty);
 
-        // se não achou, ERRO
+        // se nao achou, ERRO
         if (p == null) {
             throw new SemanticException(x.position,
                 "Constructor " + x.name.image + "(" +
@@ -756,13 +756,13 @@ public class TypeCheck extends VarCheck {
                 ") not found");
         }
 
-        // retorna c como tipo, dimensão = 0, local = -1 (não local)
+        // retorna c como tipo, dimensao = 0, local = -1 (nao local)
         t = new type(c, 0);
 
         return t;
     }
 
-    // -------------------------- Alocação de array ------------------------
+    // -------------------------- Alocacao de array ------------------------
     public type TypeCheckNewArrayNode(NewArrayNode x) throws SemanticException {
         type t;
         EntryTable c;
@@ -777,13 +777,13 @@ public class TypeCheck extends VarCheck {
         // procura o tipo da qual se deseja criar um array
         c = Curtable.classFindUp(x.name.image);
 
-        // se não achou, ERRO
+        // se nao achou, ERRO
         if (c == null) {
             throw new SemanticException(x.position,
                 "Type " + x.name.image + " not found");
         }
 
-        // para cada expressão das dimensões, verifica se tipo e int
+        // para cada expressao das dimensoes, verifica se tipo e int
         for (k = 0, p = x.dims; p != null; p = p.next) {
             t = TypeCheckExpreNode((ExpreNode) p.node);
 
@@ -798,7 +798,7 @@ public class TypeCheck extends VarCheck {
         return new type(c, k);
     }
 
-    // --------------------------- Lista de expressões ---------------
+    // --------------------------- Lista de expressoes ---------------
     public type TypeCheckExpreListNode(ListNode x) {
         type t;
         type t1;
@@ -810,7 +810,7 @@ public class TypeCheck extends VarCheck {
         }
 
         try {
-            // pega tipo do primeiro nó da lista
+            // pega tipo do primeiro no da lista
             t = TypeCheckExpreNode((ExpreNode) x.node);
         } catch (SemanticException e) {
             System.out.println(e.getMessage());
@@ -818,7 +818,7 @@ public class TypeCheck extends VarCheck {
             t = new type(NULL_TYPE, 0);
         }
 
-        // pega tipo do restante da lista. t1.ty contém um EntryRec
+        // pega tipo do restante da lista. t1.ty contem um EntryRec
         t1 = TypeCheckExpreListNode(x.next);
 
         // n = tamanho da lista em t1
@@ -827,18 +827,18 @@ public class TypeCheck extends VarCheck {
         // cria novo EntryRec com t.ty como 1.o elemento
         r = new EntryRec(t.ty, t.dim, n + 1, (EntryRec) t1.ty);
 
-        // cria type com r como variável ty
+        // cria type com r como variavel ty
         t = new type(r, 0);
 
         return t;
     }
 
-    // --------------------- Expressão relacional -------------------
+    // --------------------- Expressao relacional -------------------
     public type TypeCheckRelationalNode(RelationalNode x)
         throws SemanticException {
         type t1;
         type t2;
-        int op; // operação
+        int op; // operacao
 
         if (x == null) {
             return null;
@@ -848,32 +848,32 @@ public class TypeCheck extends VarCheck {
         t1 = TypeCheckExpreNode(x.expr1);
         t2 = TypeCheckExpreNode(x.expr2);
 
-        // se ambos são int, retorna OK
+        // se ambos sao int, retorna OK
         if ((t1.ty == INT_TYPE) && (t2.ty == INT_TYPE)) {
             return new type(INT_TYPE, 0);
         }
 
-        // se a dimensão é diferente, ERRO
+        // se a dimensao e diferente, ERRO
         if (t1.dim != t2.dim) {
             throw new SemanticException(x.position,
                 "Can not compare objects with different dimensions");
         }
 
-        // se dimensão > 0 só pode comparar igualdade
+        // se dimensao > 0 so pode comparar igualdade
         if ((op != langXConstants.EQ) && (op != langXConstants.NEQ) &&
                 (t1.dim > 0)) {
             throw new SemanticException(x.position,
                 "Can not use " + x.position.image + " for arrays");
         }
 
-        // se dois são objetos do mesmo tipo pode comparar igualdade
+        // se dois sao objetos do mesmo tipo pode comparar igualdade
         // isso inclui 2 strings
         if ((isSubClass(t2.ty, t1.ty) || isSubClass(t1.ty, t2.ty)) &&
                 ((op == langXConstants.NEQ) || (op == langXConstants.EQ))) {
             return new type(INT_TYPE, 0);
         }
 
-        // se um é objeto e outro null, pode comparar igualdade
+        // se um e objeto e outro null, pode comparar igualdade
         if (((t1.ty instanceof EntryClass && (t2.ty == NULL_TYPE)) ||
                 (t2.ty instanceof EntryClass && (t1.ty == NULL_TYPE))) &&
                 ((op == langXConstants.NEQ) || (op == langXConstants.EQ))) {
@@ -884,11 +884,11 @@ public class TypeCheck extends VarCheck {
             "Invalid types for " + x.position.image);
     }
 
-    // ------------------------ Soma ou subtração  -------------------
+    // ------------------------ Soma ou subtracao  -------------------
     public type TypeCheckAddNode(AddNode x) throws SemanticException {
         type t1;
         type t2;
-        int op; // operação
+        int op; // operacao
         int i;
         int j;
 
@@ -900,7 +900,7 @@ public class TypeCheck extends VarCheck {
         t1 = TypeCheckExpreNode(x.expr1);
         t2 = TypeCheckExpreNode(x.expr2);
 
-        // se dimensão > 0, ERRO
+        // se dimensao > 0, ERRO
         if ((t1.dim > 0) || (t2.dim > 0)) {
             throw new SemanticException(x.position,
                 "Can not use " + x.position.image + " for arrays");
@@ -925,7 +925,7 @@ public class TypeCheck extends VarCheck {
             return new type(INT_TYPE, 0);
         }
 
-        // um inteiro e um string só pode somar
+        // um inteiro e um string so pode somar
         if ((op == langXConstants.PLUS) && ((i + j) == 2)) {
             return new type(STRING_TYPE, 0);
         }
@@ -934,11 +934,11 @@ public class TypeCheck extends VarCheck {
             "Invalid types for " + x.position.image);
     }
 
-    // ---------------------- Multiplicação ou divisão --------------------
+    // ---------------------- Multiplicacao ou divisao --------------------
     public type TypeCheckMultNode(MultNode x) throws SemanticException {
         type t1;
         type t2;
-        int op; // operação
+        int op; // operacao
         int i;
         int j;
 
@@ -950,13 +950,13 @@ public class TypeCheck extends VarCheck {
         t1 = TypeCheckExpreNode(x.expr1);
         t2 = TypeCheckExpreNode(x.expr2);
 
-        // se dimensão > 0, ERRO
+        // se dimensao > 0, ERRO
         if ((t1.dim > 0) || (t2.dim > 0)) {
             throw new SemanticException(x.position,
                 "Can not use " + x.position.image + " for arrays");
         }
 
-        // só dois int's são aceitos
+        // so dois int's sao aceitos
         if ((t1.ty != INT_TYPE) || (t2.ty != INT_TYPE)) {
             throw new SemanticException(x.position,
                 "Invalid types for " + x.position.image);
@@ -965,7 +965,7 @@ public class TypeCheck extends VarCheck {
         return new type(INT_TYPE, 0);
     }
 
-    // ------------------------- Expressão unaria ------------------------
+    // ------------------------- Expressao unaria ------------------------
     public type TypeCheckUnaryNode(UnaryNode x) throws SemanticException {
         type t;
 
@@ -975,13 +975,13 @@ public class TypeCheck extends VarCheck {
 
         t = TypeCheckExpreNode(x.expr);
 
-        // se dimensão > 0, ERRO
+        // se dimensao > 0, ERRO
         if (t.dim > 0) {
             throw new SemanticException(x.position,
                 "Can not use unary " + x.position.image + " for arrays");
         }
 
-        // só int é aceito
+        // so int e aceito
         if (t.ty != INT_TYPE) {
             throw new SemanticException(x.position,
                 "Incompatible type for unary " + x.position.image);
@@ -998,10 +998,10 @@ public class TypeCheck extends VarCheck {
             return null;
         }
 
-        // tenta transformar imagem em número inteiro
+        // tenta transformar imagem em numero inteiro
         try {
             k = Integer.parseInt(x.position.image);
-        } catch (NumberFormatException e) { // se deu erro, formato e inválido (possivelmente fora dos limites)
+        } catch (NumberFormatException e) { // se deu erro, formato e invalido (possivelmente fora dos limites)
             throw new SemanticException(x.position, "Invalid int constant");
         }
 
@@ -1026,7 +1026,7 @@ public class TypeCheck extends VarCheck {
         return new type(NULL_TYPE, 0);
     }
 
-    // -------------------------------- Nome de variável ------------------
+    // -------------------------------- Nome de variavel ------------------
     public type TypeCheckVarNode(VarNode x) throws SemanticException {
         EntryVar p;
 
@@ -1034,10 +1034,10 @@ public class TypeCheck extends VarCheck {
             return null;
         }
 
-        // procura variável na tabela
+        // procura variavel na tabela
         p = Curtable.varFind(x.position.image);
 
-        // se não achou, ERRO
+        // se nao achou, ERRO
         if (p == null) {
             throw new SemanticException(x.position,
                 "Variable " + x.position.image + " not found");
@@ -1046,7 +1046,7 @@ public class TypeCheck extends VarCheck {
         return new type(p.type, p.dim);
     }
 
-    // ---------------------------- Chamada de método ------------------------
+    // ---------------------------- Chamada de metodo ------------------------
     public type TypeCheckCallNode(CallNode x) throws SemanticException {
         EntryClass c;
         EntryMethod m;
@@ -1065,7 +1065,7 @@ public class TypeCheck extends VarCheck {
             throw new SemanticException(x.position, "Arrays do not have methods");
         }
 
-        // se não for uma classe, ERRO
+        // se nao for uma classe, ERRO
         if (!(t1.ty instanceof EntryClass)) {
             throw new SemanticException(x.position,
                 "Type " + t1.ty.name + " does not have methods");
@@ -1074,11 +1074,11 @@ public class TypeCheck extends VarCheck {
         // pega tipos dos argumentos
         t2 = TypeCheckExpreListNode(x.args);
 
-        // procura o método desejado na classe t1.ty
+        // procura o metodo desejado na classe t1.ty
         c = (EntryClass) t1.ty;
         m = c.nested.methodFind(x.meth.image, (EntryRec) t2.ty);
 
-        // se não achou, ERRO
+        // se nao achou, ERRO
         if (m == null) {
             throw new SemanticException(x.position,
                 "Method " + x.meth.image + "(" +
@@ -1089,7 +1089,7 @@ public class TypeCheck extends VarCheck {
         return new type(m.type, m.dim);
     }
 
-    // --------------------------- Indexação de variável ---------------
+    // --------------------------- Indexacao de variavel ---------------
     public type TypeCheckIndexNode(IndexNode x) throws SemanticException {
         EntryClass c;
         type t1;
@@ -1102,16 +1102,16 @@ public class TypeCheck extends VarCheck {
         // calcula tipo do primeiro filho
         t1 = TypeCheckExpreNode(x.expr1);
 
-        // se não for array, ERRO
+        // se nao for array, ERRO
         if (t1.dim <= 0) {
             throw new SemanticException(x.position,
                 "Can not index non array variables");
         }
 
-        // pega tipo do índice
+        // pega tipo do indice
         t2 = TypeCheckExpreNode(x.expr2);
 
-        // se não for int, ERRO
+        // se nao for int, ERRO
         if ((t2.ty != INT_TYPE) || (t2.dim > 0)) {
             throw new SemanticException(x.position,
                 "Invalid type. Index must be int");
@@ -1120,7 +1120,7 @@ public class TypeCheck extends VarCheck {
         return new type(t1.ty, t1.dim - 1);
     }
 
-    // -------------------------- Acesso a campo de variável ---------------
+    // -------------------------- Acesso a campo de variavel ---------------
     public type TypeCheckDotNode(DotNode x) throws SemanticException {
         EntryClass c;
         EntryVar v;
@@ -1138,17 +1138,17 @@ public class TypeCheck extends VarCheck {
             throw new SemanticException(x.position, "Arrays do not have fields");
         }
 
-        // se não for uma classe, ERRO
+        // se nao for uma classe, ERRO
         if (!(t.ty instanceof EntryClass)) {
             throw new SemanticException(x.position,
                 "Type " + t.ty.name + " does not have fields");
         }
 
-        // procura a variável desejada na classe t.ty
+        // procura a variavel desejada na classe t.ty
         c = (EntryClass) t.ty;
         v = c.nested.varFind(x.field.image);
 
-        // se não achou, ERRO
+        // se nao achou, ERRO
         if (v == null) {
             throw new SemanticException(x.position,
                 "Variable " + x.field.image + " not found in class " + c.name);
@@ -1157,7 +1157,7 @@ public class TypeCheck extends VarCheck {
         return new type(v.type, v.dim);
     }
 
-    // --------------------------- Expressão em geral --------------------------
+    // --------------------------- Expressao em geral --------------------------
     public type TypeCheckExpreNode(ExpreNode x) throws SemanticException {
         if (x instanceof NewObjectNode) {
             return TypeCheckNewObjectNode((NewObjectNode) x);
