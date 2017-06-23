@@ -9,8 +9,8 @@ import codegen.*;       // importa as classes para geracao de codigo
 
 
 public class langX implements langXConstants {
-final static String Version = "X++ Compiler - Version 1.0 - 2004";
-int contParseError = 0;           // contador de erros sintaticos
+final static String Version = "X++ Compiler - Version 2.0 - 2017 - UTFPR(Turma 2014/2)";
+int contParseError = 0;   // contador de erros sintaticos
 boolean debug_recovery;   // controla verbose de recuperacao de erros
 Token lastError = null;
 
@@ -23,6 +23,8 @@ Token lastError = null;
   boolean print_tree = false;
 
     String filename = ""; // nome do arquivo a ser analisado
+    String fileArvore = ""; // nome do arquivo da arvore
+
     langX parser;         // analisador lexico/sintatico
     int i;
     boolean ms = false;
@@ -55,6 +57,8 @@ Token lastError = null;
      else
     {   // le do arquivo
         filename = args[args.length-1];
+        fileArvore = filename+".arvore.txt";
+
         System.out.println("Reading from file " + filename + " . . .");
         try {  // cria AS
             parser = new langX(new java.io.FileInputStream(filename));
@@ -85,14 +89,15 @@ Token lastError = null;
     if ( parser.token_source.foundLexError() // verifica se pode operar sobre
           + parser.contParseError == 0)      // a arvore sintatica
     {
-        if (print_tree) // exibir a arvore
-        {
-            PrintTree prt = new PrintTree();
-            prt.printRoot(root);     // chama metodo para imprimir arvore
-        }
+
+        PrintTree prt = new PrintTree();
+        prt.setFilename(fileArvore); // o nome de arquivo com a saida da arvore
+        prt.printRoot(root, print_tree);     // chama metodo para imprimir arvore
+
         CodeGen tc = new CodeGen();
         try {
              tc.CodeGenRoot(root, filename);
+             System.out.println("Generating "+fileArvore);
              System.out.println("Code generated");
         }
         catch (SemanticException e1)
@@ -142,6 +147,7 @@ Token tok;
    if (g == null) throw e; // se o conjunto e null, propaga a excecao
 
    tok = getToken(1); // pega token corrente
+
    while ( ! eof )  // se nao chegou ao fim do arquivo
    {
         if ( g.contains(tok.kind ) ) //achou um token no conjunto
@@ -1375,6 +1381,19 @@ RecoverySet f =  new RecoverySet(COMMA).union(g);
     finally { jj_save(3, xla); }
   }
 
+  private boolean jj_3_3() {
+    if (jj_scan_token(DOT)) return true;
+    if (jj_scan_token(IDENT)) return true;
+    if (jj_scan_token(LPAREN)) return true;
+    return false;
+  }
+
+  private boolean jj_3_2() {
+    if (jj_scan_token(IDENT)) return true;
+    if (jj_scan_token(IDENT)) return true;
+    return false;
+  }
+
   private boolean jj_3_4() {
     if (jj_scan_token(IDENT)) return true;
     if (jj_scan_token(LPAREN)) return true;
@@ -1417,19 +1436,6 @@ RecoverySet f =  new RecoverySet(COMMA).union(g);
 
   private boolean jj_3R_18() {
     if (jj_scan_token(COMMA)) return true;
-    return false;
-  }
-
-  private boolean jj_3_3() {
-    if (jj_scan_token(DOT)) return true;
-    if (jj_scan_token(IDENT)) return true;
-    if (jj_scan_token(LPAREN)) return true;
-    return false;
-  }
-
-  private boolean jj_3_2() {
-    if (jj_scan_token(IDENT)) return true;
-    if (jj_scan_token(IDENT)) return true;
     return false;
   }
 
