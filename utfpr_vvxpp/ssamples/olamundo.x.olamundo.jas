@@ -20,7 +20,25 @@
 
 		;begins print 
 		getstatic java/lang/System/out Ljava/io/PrintStream;
+		ldc "beginColumn=20; endColumn=20; beginLine=3; endLine=3; image:{
+"
+		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
+
+		;begins print 
+		getstatic java/lang/System/out Ljava/io/PrintStream;
+		ldc "beginColumn=17; endColumn=21; beginLine=4; endLine=4; image:print
+"
+		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
+
+		;begins print 
+		getstatic java/lang/System/out Ljava/io/PrintStream;
 		ldc "Ola Mundo!\n"
+		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
+
+		;begins print 
+		getstatic java/lang/System/out Ljava/io/PrintStream;
+		ldc "beginColumn=17; endColumn=18; beginLine=6; endLine=6; image:if
+"
 		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
 
 		;begins if 0
@@ -36,10 +54,34 @@ pxeler1:
 
 		;begins print 
 		getstatic java/lang/System/out Ljava/io/PrintStream;
+		ldc "beginColumn=26; endColumn=26; beginLine=6; endLine=6; image:{
+"
+		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
+
+		;begins print 
+		getstatic java/lang/System/out Ljava/io/PrintStream;
+		ldc "beginColumn=25; endColumn=29; beginLine=7; endLine=7; image:print
+"
+		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
+
+		;begins print 
+		getstatic java/lang/System/out Ljava/io/PrintStream;
 		ldc "Oops... Tem algo de errado com o mundo hoje :/ \n"
 		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
 		goto fi0
 else0:
+
+		;begins print 
+		getstatic java/lang/System/out Ljava/io/PrintStream;
+		ldc "beginColumn=22; endColumn=22; beginLine=8; endLine=8; image:{
+"
+		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
+
+		;begins print 
+		getstatic java/lang/System/out Ljava/io/PrintStream;
+		ldc "beginColumn=19; endColumn=23; beginLine=9; endLine=9; image:print
+"
+		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
 
 		;begins print 
 		getstatic java/lang/System/out Ljava/io/PrintStream;
@@ -48,7 +90,19 @@ else0:
 
 		;begins print 
 		getstatic java/lang/System/out Ljava/io/PrintStream;
+		ldc "beginColumn=19; endColumn=23; beginLine=10; endLine=10; image:print
+"
+		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
+
+		;begins print 
+		getstatic java/lang/System/out Ljava/io/PrintStream;
 		ldc "- Aqui tava chovendo e agora jah choveu. \n"
+		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
+
+		;begins print 
+		getstatic java/lang/System/out Ljava/io/PrintStream;
+		ldc "beginColumn=19; endColumn=23; beginLine=11; endLine=11; image:print
+"
 		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
 
 		;begins print 
