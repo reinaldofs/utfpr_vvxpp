@@ -43,7 +43,17 @@ else0:
 
 		;begins print 
 		getstatic java/lang/System/out Ljava/io/PrintStream;
-		ldc "Aqui ta chovendo e ai? \n"
+		ldc "- Aqui tah chovendo e ai? \n"
+		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
+
+		;begins print 
+		getstatic java/lang/System/out Ljava/io/PrintStream;
+		ldc "- Aqui tava chovendo e agora jah choveu. \n"
+		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
+
+		;begins print 
+		getstatic java/lang/System/out Ljava/io/PrintStream;
+		ldc "- Tah chovendo soh fora tendro de casa tah tudo seco ainda por inquanto. \n"
 		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
 fi0:
 		bipush 0
