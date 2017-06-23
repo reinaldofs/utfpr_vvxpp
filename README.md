@@ -23,8 +23,7 @@ javac parser/langX.java
 javac langXrt/Runtime.java
 ```
 
-   [JavaCC]: <http://www.devmedia.com.br/conheca-agora-e-baixe-o-plugin-do-javacc-para-eclipse/2311>
-   [Jasmin]: <http://jasmin.sourceforge.net/>
+
 
 ## Executar um programa .x
 ### 1º Passo
@@ -46,7 +45,13 @@ java -classpath .:../src olamundo
 ![N|Solid](https://cldup.com/Kxt8eu5EQY.png)
 
 
+## Referências
+- [Como Construir um Compilador Utilizando Ferramentas Java]
 
+   [JavaCC]: <http://www.devmedia.com.br/conheca-agora-e-baixe-o-plugin-do-javacc-para-eclipse/2311>
+   [Jasmin]: <http://jasmin.sourceforge.net/>
+   [Como Construir um Compilador Utilizando Ferramentas Java]:  <http://conteudo.icmc.usp.br/pessoas/delamaro/SlidesCompiladores/CompiladoresFinal.pdf>
+   
 
 
 
