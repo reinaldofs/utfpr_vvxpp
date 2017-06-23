@@ -2,20 +2,20 @@
 package parser;
 
 import java.io.*;
-import recovery.*;   // importa as classes de recupera��o de erros do AS
-import syntacticTree.*; // importa as classes dos n�s da �rvore sint�tica
-import semanalysis.*;   // importa as classes para a an�lise sem�ntica
-import codegen.*;       // importa as classes para gera��o de c�digo
+import recovery.*;   // importa as classes de recuperacao de erros do AS
+import syntacticTree.*; // importa as classes dos nos da arvore sintatica
+import semanalysis.*;   // importa as classes para a analise semantica
+import codegen.*;       // importa as classes para geracao de codigo
 
 
 public class langX implements langXConstants {
 final static String Version = "X++ Compiler - Version 1.0 - 2004";
-int contParseError = 0;           // contador de erros sint�ticos
-boolean debug_recovery;   // controla verbose de recupera��o de erros
+int contParseError = 0;           // contador de erros sintaticos
+boolean debug_recovery;   // controla verbose de recuperacao de erros
 Token lastError = null;
 
 
-// Define o m�todo "main" da classe langX.  
+// Define o metodo "main" da classe langX.  
   public  static void main(String args[]) throws ParseException
   {
   boolean debug_as = false;
@@ -23,12 +23,12 @@ Token lastError = null;
   boolean print_tree = false;
 
     String filename = ""; // nome do arquivo a ser analisado
-    langX parser;         // analisador l�xico/sint�tico
+    langX parser;         // analisador lexico/sintatico
     int i;
     boolean ms = false;
 
     System.out.println(Version);
-    // l� os par�metros passados para o compilador
+    // le os parametros passados para o compilador
     for (i = 0; i < args.length - 1; i++)
     {
         if (args[i].equals("-debug_AS") )
@@ -48,12 +48,12 @@ Token lastError = null;
     }
 
     if (args[i].equals("-"))
-    {   // l� da entrada padr�o      
+    {   // le da entrada padrao      
         System.out.println("Reading from standard input . . .");
         parser = new langX(System.in); // cria AS
      }
      else
-    {   // l� do arquivo
+    {   // le do arquivo
         filename = args[args.length-1];
         System.out.println("Reading from file " + filename + " . . .");
         try {  // cria AS
@@ -70,7 +70,7 @@ Token lastError = null;
     if (! debug_as) parser.disable_tracing(); // desab. verbose do AS
 
     try {
-        root = parser.program();   // chama o m�todo que faz a an�lise
+        root = parser.program();   // chama o metodo que faz a analise
     }
     catch (ParseEOFException e)
     {
@@ -83,12 +83,12 @@ Token lastError = null;
      }
 
     if ( parser.token_source.foundLexError() // verifica se pode operar sobre
-          + parser.contParseError == 0)      // a �rvore sint�tica
+          + parser.contParseError == 0)      // a arvore sintatica
     {
-        if (print_tree) // exibir a �rvore
+        if (print_tree) // exibir a arvore
         {
             PrintTree prt = new PrintTree();
-            prt.printRoot(root);     // chama m�todo para imprimir �rvore
+            prt.printRoot(root);     // chama metodo para imprimir arvore
         }
         CodeGen tc = new CodeGen();
         try {
@@ -121,9 +121,9 @@ String s;
 }
 
 
-boolean eof;    // vari�vel que indica se EOF foi alcan�ado
-// o m�todo abaixo consome tokens ate alcan�ar um que perten�a ao conjunto
-// de sincroniza��o
+boolean eof;    // variavel que indica se EOF foi alcancado
+// o metodo abaixo consome tokens ate alcancar um que pertenca ao conjunto
+// de sincronizacao
 
 void consumeUntil(RecoverySet g,
                  ParseException e,
@@ -132,17 +132,17 @@ void consumeUntil(RecoverySet g,
 {
 Token tok;
 
-   if ( debug_recovery) // informa��o sobre a recupera��o
+   if ( debug_recovery) // informacao sobre a recuperacao
    {
        System.out.println();
        System.out.println("*** " + met + " ***");
        System.out.println("     Syncronizing Set: " + g);
    }
 
-   if (g == null) throw e; // se o conjunto � null, propaga a exce��o
+   if (g == null) throw e; // se o conjunto e null, propaga a excecao
 
    tok = getToken(1); // pega token corrente
-   while ( ! eof )  // se n�o chegou ao fim do arquivo
+   while ( ! eof )  // se nao chegou ao fim do arquivo
    {
         if ( g.contains(tok.kind ) ) //achou um token no conjunto
         {
@@ -153,7 +153,7 @@ Token tok;
         }
         if (debug_recovery)
              System.out.println("     Ignoring token: " + im(tok.kind));
-        getNextToken();     // pega pr�ximo token       
+        getNextToken();     // pega proximo token       
         tok = getToken(1);
         if (tok.kind == EOF && ! g.contains(EOF) ) // fim da entrada?   
             eof = true;
@@ -162,7 +162,7 @@ Token tok;
    {
         System.out.println(e.getMessage());
         lastError = tok;
-        contParseError++;  // incrementa n�mero de erros
+        contParseError++;  // incrementa numero de erros
    }
    if ( eof ) throw new ParseEOFException("EOF found prematurely.");
 }

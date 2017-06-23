@@ -2,11 +2,11 @@
 package parser;
 import java.io.*;
 import recovery.*;
-                     // importa as classes de recupera��o de erros do AS
+                     // importa as classes de recuperacao de erros do AS
 import syntacticTree.*;
-                        // importa as classes dos n�s da �rvore sint�tica
+                        // importa as classes dos nos da arvore sintatica
 import semanalysis.*;
-                        // importa as classes para a an�lise sem�ntica
+                        // importa as classes para a analise semantica
 import codegen.*;
 
 /** Token Manager. */
