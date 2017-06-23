@@ -29,8 +29,8 @@ import codegen.*;       // importa as classes para geracao de codigo
  
 
 public class langX {
-final static String Version = "X++ Compiler - Version 1.0 - 2004";
-int contParseError = 0;           // contador de erros sintaticos
+final static String Version = "X++ Compiler - Version 2.0 - 2017 - UTFPR(Turma 2014/2)";
+int contParseError = 0;   // contador de erros sintaticos
 boolean debug_recovery;   // controla verbose de recuperacao de erros
 Token lastError = null;
 
