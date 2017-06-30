@@ -470,6 +470,65 @@ public class CodeGen extends TypeCheck {
         putCode("invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V",
             -2);
     }
+    
+    
+    // imprime algo em especifico
+    public void CodeGenPrintTxt(String txt) {
+        //type t;
+    	/*
+        putCode();
+        
+        
+        putCode(";begins print ");
+
+        // coloca System.out na pilha
+        putCode("getstatic java/lang/System/out Ljava/io/PrintStream;", 1);
+
+        // coloca resultado da expressao na pilha
+        store = false;
+         
+        
+        
+        // carrega a constante na pilha
+        putCode("ldc \""+txt+"\n\"", 1);
+
+        // chama PrintStream.print(String)
+        putCode("invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V",
+            -2);
+        
+        */
+       
+     // carrega a constante na pilha
+    	//putCode();
+    	//putCode("dup", 1);
+    	//putCode("aload 1", 1);
+        putCode("ldc \""+txt+"\"\n", 1);
+        // Escreve o resultado em um arquivo
+        putCode("invokestatic langXrt/Runtime/writeFile(Ljava/lang/String;)V");
+        //putCode("bipush 0");
+        //putCode("bipush 0");
+        
+        
+        
+        /*
+        
+        putCode(";begins print ");
+
+        // coloca System.out na pilha
+        putCode("getstatic java/lang/System/out Ljava/io/PrintStream;", 1);
+
+        // coloca resultado da expressao na pilha
+        store = false;
+        t = CodeGenExpreNode(x.expr);
+
+        // chama PrintStream.print(String)
+        putCode("invokevirtual java/io/PrintStream/print(Ljava/lang/String;)I",
+            -2);
+        
+        */
+    }
+    
+    
 
     // ---------------------- Comando read --------------------------
     public void CodeGenReadNode(ReadNode x) {
@@ -1148,6 +1207,11 @@ public class CodeGen extends TypeCheck {
 
     // --------------------------- Comando em geral -------------------
     public void CodeGenStatementNode(StatementNode x) {
+    	
+    	// Loga o que foi executado
+    	
+    	CodeGenPrintTxt("beginColumn="+x.position.beginColumn+"; endColumn="+x.position.endColumn+"; beginLine="+x.position.beginLine+"; endLine="+x.position.endLine+"; image="+x.position.image+"; kind="+(x.position.kind)+"; number="+(x.number)+"; next="+x.position.next.image+" \n");
+    	
         if (x instanceof BlockNode) {
             CodeGenBlockNode((BlockNode) x);
         } else if (x instanceof VarDeclNode) {

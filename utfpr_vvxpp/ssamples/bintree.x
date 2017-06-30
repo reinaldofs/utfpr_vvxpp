@@ -22,6 +22,10 @@ constructor(int d, int m, int a) // construtor 2 - dia mes e ano como
    ano = a;
 }
 
+string funcaoTeste(string parametro){
+	return parametro;
+}
+
 int compara(data x) // compara duas datas 
 {             // < 0 - menor > 0 maior 0 igual
    if ( ano < x.ano) return -1;
@@ -54,6 +58,8 @@ int insert(data k) // adiciona um elemento na arvore
 int x;
 
    x = k.compara(key);
+   k.funcaoTeste("TESTESOM");
+   
    if (x < 0)
    {
       if (left != null)

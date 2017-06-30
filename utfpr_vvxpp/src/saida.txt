@@ -1,0 +1,15 @@
+beginColumn=20; endColumn=20; beginLine=7; endLine=7; image={; kind=34; number=18;
+beginColumn=17; endColumn=21; beginLine=8; endLine=8; image=print; kind=21; number=20;
+beginColumn=17; endColumn=18; beginLine=10; endLine=10; image=if; kind=18; number=23;
+beginColumn=22; endColumn=22; beginLine=12; endLine=12; image={; kind=34; number=31;
+beginColumn=19; endColumn=23; beginLine=13; endLine=13; image=print; kind=21; number=33;
+beginColumn=19; endColumn=23; beginLine=14; endLine=14; image=print; kind=21; number=36;
+beginColumn=19; endColumn=23; beginLine=15; endLine=15; image=print; kind=21; number=39;
+beginColumn=17; endColumn=24; beginLine=18; endLine=18; image=olamundo; kind=29; number=42;
+beginColumn=22; endColumn=22; beginLine=19; endLine=19; image==; kind=41; number=46;
+beginColumn=20; endColumn=22; beginLine=20; endLine=20; image=int; kind=19; number=50;
+beginColumn=27; endColumn=31; beginLine=21; endLine=21; image=print; kind=21; number=54;
+beginColumn=25; endColumn=25; beginLine=22; endLine=22; image==; kind=41; number=57;
+beginColumn=34; endColumn=34; beginLine=4; endLine=4; image={; kind=34; number=11;
+beginColumn=17; endColumn=22; beginLine=5; endLine=5; image=return; kind=23; number=13;
+beginColumn=23; endColumn=27; beginLine=23; endLine=23; image=print; kind=21; number=64;

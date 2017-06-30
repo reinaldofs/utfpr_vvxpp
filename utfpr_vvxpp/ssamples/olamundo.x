@@ -1,5 +1,9 @@
 class olamundo
-{
+{	
+
+	int funcaoTeste(string j){
+		return 1; 
+	}
 	int start(){
 		print "Ola Mundo!\n";
 		
@@ -11,5 +15,11 @@ class olamundo
 		  print "- Tah chovendo soh fora tendro de casa tah tudo seco ainda por inquanto. \n";
 		}
 		
+		olamundo x;
+		   x = new olamundo();
+		   int i;
+		   	  print "Antes \n";
+		      i = x.funcaoTeste("TESTANDO");
+		      print "Depois \n";
 	}
 }

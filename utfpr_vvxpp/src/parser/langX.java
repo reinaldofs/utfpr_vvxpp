@@ -150,6 +150,7 @@ Token tok;
 
    while ( ! eof )  // se nao chegou ao fim do arquivo
    {
+
         if ( g.contains(tok.kind ) ) //achou um token no conjunto
         {
              if ( debug_recovery)

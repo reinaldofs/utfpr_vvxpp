@@ -2,12 +2,17 @@ package langXrt;
 
 import java.io.*;
 
+import syntacticTree.OutFile;
+
 
 public class Runtime {
     static BufferedReader in;
-
+    private final static String fileName = "saida.txt";
+    
     static public int initialize() {
         System.out.println("Language X runtime system. Version 0.1");
+        // reseta o arquivo de log de codigos
+        resetFile();
         in = new BufferedReader(new InputStreamReader(System.in));
 
         if (in == null) {
@@ -57,4 +62,15 @@ public class Runtime {
 
         return s;
     }
+    
+    
+    // escreve em um arquivo
+    static public void writeFile(String text){
+     OutFile.append(fileName, text);
+    }
+    
+    static public void resetFile(){
+	    OutFile.write(fileName, "");
+	   }
+       
 }

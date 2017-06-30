@@ -15,31 +15,44 @@
 		return
 		.end method
 
+		.method public funcaoTeste(Ljava/lang/String;)I
+		.limit locals 2
+		ldc "beginColumn=34; endColumn=34; beginLine=4; endLine=4; image={; kind=34; number=11; next=return 
+"
+
+		invokestatic langXrt/Runtime/writeFile(Ljava/lang/String;)V
+		ldc "beginColumn=17; endColumn=22; beginLine=5; endLine=5; image=return; kind=23; number=13; next=1 
+"
+
+		invokestatic langXrt/Runtime/writeFile(Ljava/lang/String;)V
+
+		;begins return 
+		ldc 1
+		ireturn
+		bipush 0
+		ireturn
+		.limit stack 3
+		.end method
+
 		.method public static start()I
-		.limit locals 1
-
-		;begins print 
-		getstatic java/lang/System/out Ljava/io/PrintStream;
-		ldc "beginColumn=20; endColumn=20; beginLine=3; endLine=3; image:{
+		.limit locals 3
+		ldc "beginColumn=20; endColumn=20; beginLine=7; endLine=7; image={; kind=34; number=18; next=print 
 "
-		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
 
-		;begins print 
-		getstatic java/lang/System/out Ljava/io/PrintStream;
-		ldc "beginColumn=17; endColumn=21; beginLine=4; endLine=4; image:print
+		invokestatic langXrt/Runtime/writeFile(Ljava/lang/String;)V
+		ldc "beginColumn=17; endColumn=21; beginLine=8; endLine=8; image=print; kind=21; number=20; next="Ola Mundo!\n" 
 "
-		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
+
+		invokestatic langXrt/Runtime/writeFile(Ljava/lang/String;)V
 
 		;begins print 
 		getstatic java/lang/System/out Ljava/io/PrintStream;
 		ldc "Ola Mundo!\n"
 		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
-
-		;begins print 
-		getstatic java/lang/System/out Ljava/io/PrintStream;
-		ldc "beginColumn=17; endColumn=18; beginLine=6; endLine=6; image:if
+		ldc "beginColumn=17; endColumn=18; beginLine=10; endLine=10; image=if; kind=18; number=23; next=( 
 "
-		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
+
+		invokestatic langXrt/Runtime/writeFile(Ljava/lang/String;)V
 
 		;begins if 0
 		ldc 1
@@ -51,18 +64,14 @@ relexpr1:
 		bipush 1
 pxeler1:
 		ifeq else0
-
-		;begins print 
-		getstatic java/lang/System/out Ljava/io/PrintStream;
-		ldc "beginColumn=26; endColumn=26; beginLine=6; endLine=6; image:{
+		ldc "beginColumn=26; endColumn=26; beginLine=10; endLine=10; image={; kind=34; number=27; next=print 
 "
-		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
 
-		;begins print 
-		getstatic java/lang/System/out Ljava/io/PrintStream;
-		ldc "beginColumn=25; endColumn=29; beginLine=7; endLine=7; image:print
+		invokestatic langXrt/Runtime/writeFile(Ljava/lang/String;)V
+		ldc "beginColumn=25; endColumn=29; beginLine=11; endLine=11; image=print; kind=21; number=29; next="Oops... Tem algo de errado com o mundo hoje :/ \n" 
 "
-		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
+
+		invokestatic langXrt/Runtime/writeFile(Ljava/lang/String;)V
 
 		;begins print 
 		getstatic java/lang/System/out Ljava/io/PrintStream;
@@ -70,49 +79,83 @@ pxeler1:
 		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
 		goto fi0
 else0:
-
-		;begins print 
-		getstatic java/lang/System/out Ljava/io/PrintStream;
-		ldc "beginColumn=22; endColumn=22; beginLine=8; endLine=8; image:{
+		ldc "beginColumn=22; endColumn=22; beginLine=12; endLine=12; image={; kind=34; number=31; next=print 
 "
-		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
 
-		;begins print 
-		getstatic java/lang/System/out Ljava/io/PrintStream;
-		ldc "beginColumn=19; endColumn=23; beginLine=9; endLine=9; image:print
+		invokestatic langXrt/Runtime/writeFile(Ljava/lang/String;)V
+		ldc "beginColumn=19; endColumn=23; beginLine=13; endLine=13; image=print; kind=21; number=33; next="- Aqui tah chovendo e ai? \n" 
 "
-		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
+
+		invokestatic langXrt/Runtime/writeFile(Ljava/lang/String;)V
 
 		;begins print 
 		getstatic java/lang/System/out Ljava/io/PrintStream;
 		ldc "- Aqui tah chovendo e ai? \n"
 		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
-
-		;begins print 
-		getstatic java/lang/System/out Ljava/io/PrintStream;
-		ldc "beginColumn=19; endColumn=23; beginLine=10; endLine=10; image:print
+		ldc "beginColumn=19; endColumn=23; beginLine=14; endLine=14; image=print; kind=21; number=36; next="- Aqui tava chovendo e agora jah choveu. \n" 
 "
-		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
+
+		invokestatic langXrt/Runtime/writeFile(Ljava/lang/String;)V
 
 		;begins print 
 		getstatic java/lang/System/out Ljava/io/PrintStream;
 		ldc "- Aqui tava chovendo e agora jah choveu. \n"
 		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
-
-		;begins print 
-		getstatic java/lang/System/out Ljava/io/PrintStream;
-		ldc "beginColumn=19; endColumn=23; beginLine=11; endLine=11; image:print
+		ldc "beginColumn=19; endColumn=23; beginLine=15; endLine=15; image=print; kind=21; number=39; next="- Tah chovendo soh fora tendro de casa tah tudo seco ainda por inquanto. \n" 
 "
-		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
+
+		invokestatic langXrt/Runtime/writeFile(Ljava/lang/String;)V
 
 		;begins print 
 		getstatic java/lang/System/out Ljava/io/PrintStream;
 		ldc "- Tah chovendo soh fora tendro de casa tah tudo seco ainda por inquanto. \n"
 		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
 fi0:
+		ldc "beginColumn=17; endColumn=24; beginLine=18; endLine=18; image=olamundo; kind=29; number=42; next=x 
+"
+
+		invokestatic langXrt/Runtime/writeFile(Ljava/lang/String;)V
+		ldc "beginColumn=22; endColumn=22; beginLine=19; endLine=19; image==; kind=41; number=46; next=new 
+"
+
+		invokestatic langXrt/Runtime/writeFile(Ljava/lang/String;)V
+		new olamundo
+		dup
+		invokespecial olamundo/<init>()V
+		astore 1
+		ldc "beginColumn=20; endColumn=22; beginLine=20; endLine=20; image=int; kind=19; number=50; next=i 
+"
+
+		invokestatic langXrt/Runtime/writeFile(Ljava/lang/String;)V
+		ldc "beginColumn=27; endColumn=31; beginLine=21; endLine=21; image=print; kind=21; number=54; next="Antes \n" 
+"
+
+		invokestatic langXrt/Runtime/writeFile(Ljava/lang/String;)V
+
+		;begins print 
+		getstatic java/lang/System/out Ljava/io/PrintStream;
+		ldc "Antes \n"
+		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
+		ldc "beginColumn=25; endColumn=25; beginLine=22; endLine=22; image==; kind=41; number=57; next=x 
+"
+
+		invokestatic langXrt/Runtime/writeFile(Ljava/lang/String;)V
+		aload 1
+		ldc "TESTANDO"
+		invokevirtual olamundo/funcaoTeste(Ljava/lang/String;)I
+		istore 2
+		ldc "beginColumn=23; endColumn=27; beginLine=23; endLine=23; image=print; kind=21; number=64; next="Depois \n" 
+"
+
+		invokestatic langXrt/Runtime/writeFile(Ljava/lang/String;)V
+
+		;begins print 
+		getstatic java/lang/System/out Ljava/io/PrintStream;
+		ldc "Depois \n"
+		invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V
 		bipush 0
 		ireturn
-		.limit stack 2
+		.limit stack 17
 		.end method
 
 		;Entry point for the JVM
