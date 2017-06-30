@@ -1,67 +1,18 @@
 null
-1: ListNode (ClassDeclNode)  ===> 2 null
-
-2: ClassDeclNode ===> olamundo null 3
-3: ClassBodyNode ===> null null null 4
-4: ListNode (MethodDeclNode) ===> 5 15
-5: MethodDeclNode ===> int funcaoTeste 6
-6: MethodBodyNode ===> 7 11
-7: ListNode (VarDeclNode) ===> 8 null
-8: VarDeclNode ===> string 9
-9: ListNode (VarNode) ===> 10 null
-10: VarNode ===> j 
-11: BlockNode ===> 12
-12: ListNode (StatementNode) ===> 13 null
-13: ReturnNode ===> 14
 14: IntConstNode ===> 1
-15: ListNode (MethodDeclNode) ===> 16 null
-16: MethodDeclNode ===> int start 17
-17: MethodBodyNode ===> null 18
-18: BlockNode ===> 19
-19: ListNode (StatementNode) ===> 20 22
-20: PrintNode ===> 21
 21: StringConstNode ===> "Ola Mundo!\n"
-22: ListNode (StatementNode) ===> 23 41
-23: IfNode ===> 24 27 31
 24: RelationalNode ===> 25 == 26
 25: IntConstNode ===> 1
 26: IntConstNode ===> 2
-27: BlockNode ===> 28
-28: ListNode (StatementNode) ===> 29 null
-29: PrintNode ===> 30
 30: StringConstNode ===> "Oops... Tem algo de errado com o mundo hoje :/ \n"
-31: BlockNode ===> 32
-32: ListNode (StatementNode) ===> 33 35
-33: PrintNode ===> 34
 34: StringConstNode ===> "- Aqui tah chovendo e ai? \n"
-35: ListNode (StatementNode) ===> 36 38
-36: PrintNode ===> 37
 37: StringConstNode ===> "- Aqui tava chovendo e agora jah choveu. \n"
-38: ListNode (StatementNode) ===> 39 null
-39: PrintNode ===> 40
 40: StringConstNode ===> "- Tah chovendo soh fora tendro de casa tah tudo seco ainda por inquanto. \n"
-41: ListNode (StatementNode) ===> 42 45
-42: VarDeclNode ===> olamundo 43
-43: ListNode (VarNode) ===> 44 null
-44: VarNode ===> x 
-45: ListNode (StatementNode) ===> 46 49
-46: AtribNode ===> 47 48
 47: VarNode ===> x 
 48: NewObjectNode ===> olamundo null
-49: ListNode (StatementNode) ===> 50 53
-50: VarDeclNode ===> int 51
-51: ListNode (VarNode) ===> 52 null
-52: VarNode ===> i 
-53: ListNode (StatementNode) ===> 54 56
-54: PrintNode ===> 55
 55: StringConstNode ===> "Antes \n"
-56: ListNode (StatementNode) ===> 57 63
-57: AtribNode ===> 58 59
 58: VarNode ===> i 
 59: CallNode ===> 60 funcaoTeste 61
 60: VarNode ===> x 
-61: ListNode (ExpreNode) ===> 62 null
 62: StringConstNode ===> "TESTANDO"
-63: ListNode (StatementNode) ===> 64 null
-64: PrintNode ===> 65
 65: StringConstNode ===> "Depois \n"

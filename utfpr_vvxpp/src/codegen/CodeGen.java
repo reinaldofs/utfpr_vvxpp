@@ -1174,6 +1174,8 @@ public class CodeGen extends TypeCheck {
 
     // --------------------------- Expressao em geral --------------------------
     public type CodeGenExpreNode(ExpreNode x) {
+    	CodeGenPrintTxt("beginColumn="+x.position.beginColumn+"; endColumn="+x.position.endColumn+"; beginLine="+x.position.beginLine+"; endLine="+x.position.endLine+"; image="+(x.position.image == null ? x.position.image: "null")+"; kind="+(x.position.kind)+"; number="+(x.number)+";\n");
+    	
         if (x instanceof NewObjectNode) {
             return CodeGenNewObjectNode((NewObjectNode) x);
         } else if (x instanceof NewArrayNode) {
@@ -1210,7 +1212,7 @@ public class CodeGen extends TypeCheck {
     	
     	// Loga o que foi executado
     	
-    	CodeGenPrintTxt("beginColumn="+x.position.beginColumn+"; endColumn="+x.position.endColumn+"; beginLine="+x.position.beginLine+"; endLine="+x.position.endLine+"; image="+x.position.image+"; kind="+(x.position.kind)+"; number="+(x.number)+"; next="+x.position.next.image+" \n");
+    	CodeGenPrintTxt("beginColumn="+x.position.beginColumn+"; endColumn="+x.position.endColumn+"; beginLine="+x.position.beginLine+"; endLine="+x.position.endLine+"; image="+x.position.image+"; kind="+(x.position.kind)+"; number="+(x.number)+";\n");
     	
         if (x instanceof BlockNode) {
             CodeGenBlockNode((BlockNode) x);
