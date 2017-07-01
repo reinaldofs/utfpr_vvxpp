@@ -1174,7 +1174,7 @@ public class CodeGen extends TypeCheck {
 
     // --------------------------- Expressao em geral --------------------------
     public type CodeGenExpreNode(ExpreNode x) {
-    	CodeGenPrintTxt("beginColumn="+x.position.beginColumn+"; endColumn="+x.position.endColumn+"; beginLine="+x.position.beginLine+"; endLine="+x.position.endLine+"; image="+(x.position.image == null ? x.position.image: "null")+"; kind="+(x.position.kind)+"; number="+(x.number)+";\n");
+    	CodeGenPrintTxt("beginColumn="+x.position.beginColumn+"; endColumn="+x.position.endColumn+"; beginLine="+x.position.beginLine+"; endLine="+x.position.endLine+"; image="+(x.position.image == null ? x.position.image: "null")+"; kind="+(x.position.kind)+"; number="+(x.number)+"|");
     	
         if (x instanceof NewObjectNode) {
             return CodeGenNewObjectNode((NewObjectNode) x);
@@ -1212,7 +1212,7 @@ public class CodeGen extends TypeCheck {
     	
     	// Loga o que foi executado
     	
-    	CodeGenPrintTxt("beginColumn="+x.position.beginColumn+"; endColumn="+x.position.endColumn+"; beginLine="+x.position.beginLine+"; endLine="+x.position.endLine+"; image="+x.position.image+"; kind="+(x.position.kind)+"; number="+(x.number)+";\n");
+    	CodeGenPrintTxt("beginColumn="+x.position.beginColumn+"; endColumn="+x.position.endColumn+"; beginLine="+x.position.beginLine+"; endLine="+x.position.endLine+"; image="+x.position.image+"; kind="+(x.position.kind)+"; number="+(x.number)+"|");
     	
         if (x instanceof BlockNode) {
             CodeGenBlockNode((BlockNode) x);
