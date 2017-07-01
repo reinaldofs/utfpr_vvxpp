@@ -1,2 +1,7 @@
 
 *.class
+*.txt
+
+utfpr_vvxpp/bin/
+
+*.jas
