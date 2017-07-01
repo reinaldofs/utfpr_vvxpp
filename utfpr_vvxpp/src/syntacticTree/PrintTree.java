@@ -8,7 +8,7 @@ public class PrintTree {
     String textOut;
     String filename;
     boolean showConsole;
-    boolean out;
+ 
     
     public void setFilename(String filename){
     	this.filename = filename;
@@ -27,12 +27,12 @@ public class PrintTree {
     }
     
     private void print(String txt){
-    	if (out){
-	    	textOut += txt; // armazena no arquivo que sera gravado
-	    	if (showConsole){
-	    		System.out.print(txt);
-	    	}
+   
+    	textOut += txt; // armazena no arquivo que sera gravado
+    	if (showConsole){
+    		System.out.print(txt);
     	}
+	
     }
     
     
@@ -866,7 +866,7 @@ public class PrintTree {
 
     // --------------------------- Expressao em geral --------------------------
     public void printExpreNode(ExpreNode x) {
-    	out = true;
+    
         if (x instanceof NewObjectNode) {
             printNewObjectNode((NewObjectNode) x);
         } else if (x instanceof NewArrayNode) {
@@ -894,7 +894,7 @@ public class PrintTree {
         } else if (x instanceof VarNode) {
             printVarNode((VarNode) x);
         }
-        out = false;
+    
     }
 
     public void numberExpreNode(ExpreNode x) {
