@@ -191,6 +191,8 @@ public class Controller {
     }
 
     public void criaGraficoPizza(List<Mapeamento> maps) {
+    	graficoPizza.getData().clear();
+    	barChartFx.getData().clear();
 
         Integer totalExecutado = 0;
 
