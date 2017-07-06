@@ -13,6 +13,8 @@ public class Mapeamento {
 
     private Integer linhaFim;
 
+    private Integer number;
+
     public Integer getColunaInicio() {
         return colunaInicio;
     }
@@ -43,6 +45,14 @@ public class Mapeamento {
 
     public void setLinhaFim(Integer linhaFim) {
         this.linhaFim = linhaFim;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
     @Override

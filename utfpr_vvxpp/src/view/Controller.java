@@ -1,8 +1,14 @@
 package view;
 
+import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.PieChart;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -28,6 +34,8 @@ public class Controller {
 
     private StringBuffer stringBufferXPluPlus;
 
+    private List<String> nos = new ArrayList<>();
+
     @FXML
     private ScrollPane scrollPaneOutput;
 
@@ -36,7 +44,16 @@ public class Controller {
 
     private List<String> linhas = new ArrayList<>();
 
-    public void buscar(){
+    @FXML
+    private PieChart graficoPizza;
+
+    @FXML
+    private Label lblQtNosExecut;
+
+    @FXML
+    private BarChart<Integer, Integer> barChartFx;
+
+    public void buscar() {
         stringBuffer = new StringBuffer();
 
         fileChooser = new FileChooser();
@@ -50,7 +67,7 @@ public class Controller {
 
                 String s = bufferedReader.readLine();
 
-                while (s != null){
+                while (s != null) {
                     stringBuffer.append(s);
                     s = bufferedReader.readLine();
                 }
@@ -66,31 +83,48 @@ public class Controller {
                 String s2 = bufferedReader2.readLine();
                 stringBufferXPluPlus = new StringBuffer();
                 linhas.add(s2);
-                while (s2 != null){
+                while (s2 != null) {
                     stringBufferXPluPlus.append(s2);
                     s2 = bufferedReader2.readLine();
                     linhas.add(s2);
                 }
 
+                fileChooser = new FileChooser();
+                fileChooser.setTitle("Selecione o Arquivo de nós");
+                xPlusPlusSelected = fileChooser.showOpenDialog(null);
+
+                BufferedReader bufferedReader3 = new BufferedReader(new FileReader(xPlusPlusSelected));
+
+                String s3 = bufferedReader3.readLine();
+                nos = new ArrayList<>();
+                nos.add(s3);
+                while (s3 != null) {
+                    s3= bufferedReader3.readLine();
+                    if(!"".equals(s3)){
+                        nos.add(s3);
+                    }
+                }
+
                 processaContextoGrafico(maps);
 
+                criaGraficoPizza(maps);
 
 
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-            }catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
     }
 
-    public List<Mapeamento>  processaMapeamento(String a){
+    public List<Mapeamento> processaMapeamento(String a) {
 
         String vectorMap[] = a.replace("{", "1").split("\\|");
         List<Mapeamento> mapeamentos = new ArrayList<>();
 
-        for (int i = 0; i < vectorMap.length; i++){
+        for (int i = 0; i < vectorMap.length; i++) {
 
             String vetorPontoEVirgula[] = vectorMap[i].split(";");
             Map<String, Integer> objetos = new HashMap();
@@ -98,7 +132,7 @@ public class Controller {
             for (int c = 0; c < vetorPontoEVirgula.length; c++) {
 
                 String value = vetorPontoEVirgula[c].split("=")[0].trim();
-                if("beginColumn".equals(value) || "endColumn".equals(value) || "endLine".equals(value) || "beginLine".equals(value)) {
+                if ("beginColumn".equals(value) || "endColumn".equals(value) || "endLine".equals(value) || "beginLine".equals(value) || "number".equals(value)) {
                     objetos.put(value, Integer.parseInt(vetorPontoEVirgula[c].split("=")[1]));
                 }
             }
@@ -108,37 +142,121 @@ public class Controller {
             mapeamento.setColunaFim(objetos.get("endColumn"));
             mapeamento.setLinhaFim(objetos.get("endLine"));
             mapeamento.setLinhaInicio(objetos.get("beginLine"));
+            mapeamento.setNumber(objetos.get("number"));
             mapeamentos.add(mapeamento);
         }
         return mapeamentos;
     }
 
-    public void processaContextoGrafico( List<Mapeamento> maps){
+    public void processaContextoGrafico(List<Mapeamento> maps) {
 
         int posicaox = 15;
         int posicaoy = 13;
 
-        Canvas canvas = new Canvas( 637, 327);
+        Canvas canvas = new Canvas(637, 327);
 
         GraphicsContext gc2 = canvas.getGraphicsContext2D();
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        gc2.setFill( Color.BLUE );
-        gc.setFill( Color.RED );
-        gc.setStroke( Color.BLACK );
+        gc2.setFill(Color.BLUE);
+        gc.setFill(Color.RED);
+        gc.setStroke(Color.BLACK);
         gc.setLineWidth(2);
-        Font theFont = Font.font( "Times New Roman", FontWeight.BOLD, 12 );
-        gc.setFont( theFont );
+        Font theFont = Font.font("Times New Roman", FontWeight.BOLD, 12);
+        gc.setFont(theFont);
         gc2.setFont(theFont);
 
         panelnternoScroll.getChildren().add(canvas);
 
 
-        for (int i = 0; i<linhas.size(); i++) {
+        for (int i = 0; i < linhas.size(); i++) {
             posicaoy = posicaoy + 13;
 
-            gc.fillText( linhas.get(i), posicaox, posicaoy );
+            gc.fillText(linhas.get(i), posicaox, posicaoy);
         }
+
+
+    }
+
+    public void criaGraficoPizza(List<Mapeamento> maps) {
+
+        Integer totalExecutado = 0;
+
+
+        stringBufferXPluPlus.trimToSize();
+
+        Map<Integer, Integer> nosQtExecutado = new HashMap();
+
+        for (String no:nos) {
+
+            if(no != null) {
+                System.out.println(no.split(":")[0]);
+                String a = no.split(":")[0];
+                if(a != null && !"".equals(a) && !"null".equals(a) ) {
+                    nosQtExecutado.put(Integer.parseInt(a), 0);
+                }
+            }
+        }
+
+        for (Mapeamento mapeamento : maps) {
+            if(mapeamento.getNumber() != null){
+                if(nosQtExecutado.containsKey(mapeamento.getNumber())){
+                    nosQtExecutado.put(mapeamento.getNumber(), nosQtExecutado.get(mapeamento.getNumber()) + 1);
+                }
+            }
+        }
+
+        Integer qtExecutados = 0;
+        Integer qtNaoExecutados = 0;
+        for (Map.Entry<Integer, Integer> entry : nosQtExecutado.entrySet())
+        {
+            System.out.println(entry.getKey() + "/" + entry.getValue());
+            if(entry.getValue() == 0){
+                qtNaoExecutados ++;
+            }else{
+                qtExecutados ++;
+            }
+        }
+
+        System.out.println("QT EXECUTADOS:" + qtExecutados);
+        System.out.println("QT N EXECUTADOS:" + qtNaoExecutados);
+        lblQtNosExecut.setText("Qt. nós Executados:" + qtExecutados + " \nQt nós não Executados " + qtNaoExecutados);
+    //Porcentagem de nós executados por não executados
+
+
+        Integer totalExecutadosEnaoExecutados = qtNaoExecutados + qtExecutados;
+
+        Double porcentagemExecutado = (qtExecutados.doubleValue() / totalExecutadosEnaoExecutados) *100;
+
+        Double porcentagemNaoExecutado  = (qtNaoExecutados.doubleValue()/totalExecutadosEnaoExecutados) * 100;
+
+
+
+        graficoPizza.setTitle("Porcentagem de Execução de Nós");
+        ObservableList<PieChart.Data> datas = FXCollections.observableArrayList(
+                new PieChart.Data("Executado", porcentagemExecutado.intValue()),
+                new PieChart.Data("Não Executado", porcentagemNaoExecutado.intValue()));
+
+        datas.forEach(data ->
+                data.nameProperty().bind(
+                        Bindings.concat(
+                                data.getName(), " ", data.pieValueProperty(), "%"
+                        )
+                )
+        );
+
+        graficoPizza.setData(datas);
+        graficoPizza.setLabelsVisible(true);
+        graficoPizza.setLegendVisible(true);
+
+        graficoPizza.setVisible(true);
+
+
+        //Monta o Barchart
+        barChartFx.setTitle("Quantidade de vezes que o nó foi utilizado");
+
+       // barChartFx.getData().addAll(datas);
+
 
     }
 
