@@ -7,7 +7,9 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -18,10 +20,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Controller {
 
@@ -52,6 +51,10 @@ public class Controller {
 
     @FXML
     private BarChart<Integer, Integer> barChartFx;
+
+    @FXML
+    private CategoryAxis xAxis;
+
 
     public void buscar() {
         stringBuffer = new StringBuffer();
@@ -205,11 +208,12 @@ public class Controller {
                 }
             }
         }
-
+        List<String> nosChave = new ArrayList<>();
         Integer qtExecutados = 0;
         Integer qtNaoExecutados = 0;
         for (Map.Entry<Integer, Integer> entry : nosQtExecutado.entrySet())
         {
+            nosChave.add(entry.getKey().toString());
             System.out.println(entry.getKey() + "/" + entry.getValue());
             if(entry.getValue() == 0){
                 qtNaoExecutados ++;
@@ -250,12 +254,24 @@ public class Controller {
         graficoPizza.setLegendVisible(true);
 
         graficoPizza.setVisible(true);
+        ObservableList<String> chavesNo = FXCollections.observableArrayList();
 
+        chavesNo.addAll(nosChave);
 
         //Monta o Barchart
         barChartFx.setTitle("Quantidade de vezes que o nó foi utilizado");
+        xAxis.setCategories(chavesNo);
 
-       // barChartFx.getData().addAll(datas);
+        XYChart.Series<Integer, Integer> series = new XYChart.Series<>();
+        for (Map.Entry<Integer, Integer> entry : nosQtExecutado.entrySet())
+        {
+            series.getData().add(new XYChart.Data(entry.getKey().toString(), entry.getValue()));
+
+        }
+        barChartFx.getData().add(series);
+
+
+        // barChartFx.getData().addAll(datas);
 
 
     }

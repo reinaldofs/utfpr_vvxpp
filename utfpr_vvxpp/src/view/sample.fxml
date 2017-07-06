@@ -29,11 +29,13 @@
       </ScrollPane>
       <BarChart fx:id="barChartFx" layoutX="412.0" layoutY="299.0" prefHeight="244.0" prefWidth="687.0">
         <xAxis>
-          <CategoryAxis side="BOTTOM" />
+          <CategoryAxis side="BOTTOM" fx:id="xAxis" />
         </xAxis>
         <yAxis>
           <NumberAxis side="LEFT" />
         </yAxis>
       </BarChart>
+      <Text layoutX="474.0" layoutY="531.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nós" wrappingWidth="30.099609375" />
+      <Text layoutX="450.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quantidade de vezes" />
    </children>
 </AnchorPane>
