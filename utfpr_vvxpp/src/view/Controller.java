@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -54,6 +55,13 @@ public class Controller {
 
     @FXML
     private CategoryAxis xAxis;
+    
+    @FXML
+    private TextField classeTxtField;
+
+    @FXML
+    private TextField metodoTxtField;
+
 
 
     public void buscar() {
@@ -182,7 +190,8 @@ public class Controller {
     }
 
     public void criaGraficoPizza(List<Mapeamento> maps) {
-
+    	graficoPizza.getData().clear();
+    	barChartFx.getData().clear();
         Integer totalExecutado = 0;
 
 
@@ -275,5 +284,14 @@ public class Controller {
 
 
     }
+    
+    public void gerarGrafoBtn(){
+        try {
+            fr.univnantes.bytecodetocfg.Main.generate(classeTxtField.getText(), metodoTxtField.getText());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
