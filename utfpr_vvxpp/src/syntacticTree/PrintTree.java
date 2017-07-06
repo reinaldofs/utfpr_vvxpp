@@ -68,12 +68,14 @@ public class PrintTree {
         if (x == null) {
             return;
         }
-
+        
+        /*
         this.println();
-        this.println(x.number + ": ListNode (ClassDeclNode)  ===> " +
+        this.println(x.number + "!: ListNode (ClassDeclNode)  ===> " +
             x.node.number + " " +
             ((x.next == null) ? "null" : String.valueOf(x.next.number)));
-
+		*/
+        
         printClassDeclNode((ClassDeclNode) x.node);
         printClassDeclListNode(x.next);
     }
@@ -92,12 +94,12 @@ public class PrintTree {
         if (x == null) {
             return;
         }
-
+        /*
         this.println();
-        this.print(x.number + ": ClassDeclNode ===> " + x.name.image +
+        this.print(x.number + "!: ClassDeclNode ===> " + x.name.image +
             " " + ((x.supername == null) ? "null" : x.supername.image) + " " +
             ((x.body == null) ? "null" : String.valueOf(x.body.number)));
-
+		*/
         printClassBodyNode(x.body);
     }
 
@@ -118,15 +120,15 @@ public class PrintTree {
         if (x == null) {
             return;
         }
-
+        /*
         this.println();
-        this.print(x.number + ": ClassBodyNode ===> " +
+        this.print(x.number + "!: ClassBodyNode ===> " +
             ((x.clist == null) ? "null" : String.valueOf(x.clist.number)) +
             " " + ((x.vlist == null) ? "null" : String.valueOf(x.vlist.number)) +
             " " +
             ((x.ctlist == null) ? "null" : String.valueOf(x.ctlist.number)) +
             " " + ((x.mlist == null) ? "null" : String.valueOf(x.mlist.number)));
-
+		*/
         printClassDeclListNode(x.clist);
         printVarDeclListNode(x.vlist);
         printConstructDeclListNode(x.ctlist);
@@ -148,12 +150,12 @@ public class PrintTree {
         if (x == null) {
             return;
         }
-
+        /*
         this.println();
-        this.print(x.number + ": ListNode (VarDeclNode) ===> " +
+        this.print(x.number + "!: ListNode (VarDeclNode) ===> " +
             x.node.number + " " +
             ((x.next == null) ? "null" : String.valueOf(x.next.number)));
-
+		*/
         printVarDeclNode((VarDeclNode) x.node);
         printVarDeclListNode(x.next);
     }
@@ -172,10 +174,11 @@ public class PrintTree {
         if (x == null) {
             return;
         }
-
+        /*
         this.println();
-        this.print(x.number + ": VarDeclNode ===> " + x.position.image +
+        this.print(x.number + "!: VarDeclNode ===> " + x.position.image +
             " " + x.vars.number);
+        */
         printvarListNode(x.vars);
     }
 
@@ -194,12 +197,12 @@ public class PrintTree {
         if (x == null) {
             return;
         }
-
+        /*
         this.println();
-        this.print(x.number + ": ListNode (VarNode) ===> " +
+        this.print(x.number + "!: ListNode (VarNode) ===> " +
             x.node.number + " " +
             ((x.next == null) ? "null" : String.valueOf(x.next.number)));
-
+		*/
         printVarNode((VarNode) x.node);
         printvarListNode(x.next);
     }
@@ -265,11 +268,12 @@ public class PrintTree {
         if (x == null) {
             return;
         }
-
+        /*
         this.println();
-        this.print(x.number + ": ListNode (MethodDeclNode) ===> " +
+        this.print(x.number + "!: ListNode (MethodDeclNode) ===> " +
             x.node.number + " " +
             ((x.next == null) ? "null" : String.valueOf(x.next.number)));
+        */
         printMethodDeclNode((MethodDeclNode) x.node);
         printMethodDeclListNode(x.next);
     }
@@ -288,11 +292,12 @@ public class PrintTree {
         if (x == null) {
             return;
         }
-
+        /*
         this.println();
-        this.print(x.number + ": MethodDeclNode ===> " +
+        this.print(x.number + "!: MethodDeclNode ===> " +
             x.position.image + " " + ((x.dim == 0) ? "" : ("[" + x.dim + "] ")) +
             x.name.image + " " + x.body.number);
+        */
         printMethodBodyNode(x.body);
     }
 
@@ -311,11 +316,12 @@ public class PrintTree {
         if (x == null) {
             return;
         }
-
+        /*
         this.println();
-        this.print(x.number + ": MethodBodyNode ===> " +
+        this.print(x.number + "!: MethodBodyNode ===> " +
             ((x.param == null) ? "null" : String.valueOf(x.param.number)) +
             " " + x.stat.number);
+        */
         printVarDeclListNode(x.param);
         printStatementNode(x.stat);
     }
@@ -355,12 +361,12 @@ public class PrintTree {
         if (x == null) {
             return;
         }
-
+        /*
         this.println();
-        this.print(x.number + ": ListNode (StatementNode) ===> " +
+        this.print(x.number + "!: ListNode (StatementNode) ===> " +
             x.node.number + " " +
             ((x.next == null) ? "null" : String.valueOf(x.next.number)));
-
+		*/
         printStatementNode((StatementNode) x.node);
         printStatementListNode(x.next);
     }
@@ -623,11 +629,12 @@ public class PrintTree {
         if (x == null) {
             return;
         }
-
+        /*
         this.println();
-        this.print(x.number + ": ListNode (ExpreNode) ===> " +
+        this.print(x.number + "!: ListNode (ExpreNode) ===> " +
             x.node.number + " " +
             ((x.next == null) ? "null" : String.valueOf(x.next.number)));
+        */
         printExpreNode((ExpreNode) x.node);
         printExpreListNode(x.next);
     }
@@ -790,10 +797,11 @@ public class PrintTree {
         if (x == null) {
             return;
         }
-
+        /*
         this.println();
-        this.print(x.number + ": VarNode ===> " + x.position.image + " " +
+        this.print(x.number + "!: VarNode ===> " + x.position.image + " " +
             ((x.dim == 0) ? "" : ("[" + x.dim + "]")));
+        */
     }
 
     // ---------------------------- Chamada de metodo ------------------------

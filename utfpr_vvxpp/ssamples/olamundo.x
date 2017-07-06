@@ -2,14 +2,13 @@ class olamundo
 {	
 
 	int funcaoTeste(string j){
-		return 1; 
+		return 99; 
 	}
 	int start(){
-		print "Ola Mundo!\n";
+		print "Ola Mundossssss!\n";
 		
-		if (1==2){
-			print "Oops... Tem algo de errado com o mundo hoje :/ \n";
-		}else{
+		if (1==1){
+
 		  print "- Aqui tah chovendo e ai? \n";
 		  print "- Aqui tava chovendo e agora jah choveu. \n";
 		  print "- Tah chovendo soh fora tendro de casa tah tudo seco ainda por inquanto. \n";
@@ -20,6 +19,6 @@ class olamundo
 		   int i;
 		   	  print "Antes \n";
 		      i = x.funcaoTeste("TESTANDO");
-		      print "Depois \n";
+		      print i+" Depois \n";
 	}
 }

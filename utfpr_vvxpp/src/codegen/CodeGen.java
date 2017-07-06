@@ -44,6 +44,7 @@ public class CodeGen extends TypeCheck {
         }
 
         SourceAbs = filename; // guarda tbem o caminho completo
+       
         CodeGenClassDeclListNode(x); // chama geracao para a raiz
     }
 
@@ -52,7 +53,6 @@ public class CodeGen extends TypeCheck {
         if (x == null) {
             return;
         }
-
         CodeGenClassDeclNode((ClassDeclNode) x.node);
         CodeGenClassDeclListNode(x.next);
     }
@@ -72,7 +72,7 @@ public class CodeGen extends TypeCheck {
         if (x == null) {
             return;
         }
-
+        
         // acha a classe na tabela
         nc = (EntryClass) Curtable.classFindUp(x.name.image);
         ns = nc.parent; // pega superclasse
@@ -129,7 +129,6 @@ public class CodeGen extends TypeCheck {
         if (x == null) {
             return;
         }
-
         CodeGenClassDeclListNode(x.clist);
         CodeGenVarDeclListNode(x.vlist);
         l = Curtable.methodFindInclass("constructor", null);
@@ -186,7 +185,7 @@ public class CodeGen extends TypeCheck {
         if (x == null) {
             return;
         }
-
+        
         for (p = x.vars; p != null; p = p.next) {
             VarNode q = (VarNode) p.node;
 
@@ -319,7 +318,7 @@ public class CodeGen extends TypeCheck {
         if (x == null) {
             return;
         }
-
+        
         p = x.body.param;
         n = 0;
 
@@ -1004,7 +1003,7 @@ public class CodeGen extends TypeCheck {
         if (x == null) {
             return null;
         }
-
+   
         // carrega a constante na pilha
         putCode("ldc " + x.position.image, 1);
 
@@ -1016,7 +1015,7 @@ public class CodeGen extends TypeCheck {
         if (x == null) {
             return null;
         }
-
+   
         // carrega a constante na pilha
         putCode("aconst_null", 1);
 
@@ -1032,7 +1031,7 @@ public class CodeGen extends TypeCheck {
         if (x == null) {
             return null;
         }
-
+     
         // procura variavel na tabela
         p = Curtable.varFind(x.position.image);
 
@@ -1172,10 +1171,12 @@ public class CodeGen extends TypeCheck {
         return new type(v.type, v.dim);
     }
 
+    public void gerarCobertura(GeneralNode x){
+    	CodeGenPrintTxt("beginColumn="+x.position.beginColumn+"; endColumn="+x.position.endColumn+"; beginLine="+x.position.beginLine+"; endLine="+x.position.endLine+"; image="+(x.position.image == null ? x.position.image: "null")+"; kind="+(x.position.kind)+"; number="+(x.number)+"|");
+    }
     // --------------------------- Expressao em geral --------------------------
     public type CodeGenExpreNode(ExpreNode x) {
-    	CodeGenPrintTxt("beginColumn="+x.position.beginColumn+"; endColumn="+x.position.endColumn+"; beginLine="+x.position.beginLine+"; endLine="+x.position.endLine+"; image="+(x.position.image == null ? x.position.image: "null")+"; kind="+(x.position.kind)+"; number="+(x.number)+"|");
-    	
+    	this.gerarCobertura(x);
         if (x instanceof NewObjectNode) {
             return CodeGenNewObjectNode((NewObjectNode) x);
         } else if (x instanceof NewArrayNode) {
@@ -1211,8 +1212,7 @@ public class CodeGen extends TypeCheck {
     public void CodeGenStatementNode(StatementNode x) {
     	
     	// Loga o que foi executado
-    	
-    	CodeGenPrintTxt("beginColumn="+x.position.beginColumn+"; endColumn="+x.position.endColumn+"; beginLine="+x.position.beginLine+"; endLine="+x.position.endLine+"; image="+x.position.image+"; kind="+(x.position.kind)+"; number="+(x.number)+"|");
+    	this.gerarCobertura(x);
     	
         if (x instanceof BlockNode) {
             CodeGenBlockNode((BlockNode) x);
