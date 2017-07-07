@@ -22,14 +22,17 @@ public class Main extends Application {
         primaryStage.setTitle("Cobertura X++");
         primaryStage.setScene(new Scene(root, 1280, 690));
         primaryStage.centerOnScreen();
-        primaryStage.setMaximized(true);
+        primaryStage.setMaximized(false);
         primaryStage.show();
     }
 
 
     public static void main(String[] args) {
-        setCaminhoArquivo( args[0] );
+    	if (args.length>0){
+    		setCaminhoArquivo( args[0] );
+    	}
         launch(args);
+  
     }
 
     public static String getCaminhoArquivo() {
