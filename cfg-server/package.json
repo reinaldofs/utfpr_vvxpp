@@ -1,0 +1,11 @@
+{
+  "name": "cfg-server",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.15.3",
+    "fs-extra": "^3.0.1"
+  }
+}
