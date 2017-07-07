@@ -25,7 +25,13 @@ public class Controller implements Initializable{
     private final String infos = "Projeto Desenvolvido Pela 1ª Turma de Engenharia de Software da UTFPR Campus Dois Vizinhos";
 
     //olamundo eh o nome da classe start o metod depois o caminho
-    private String URL_NODE = "http://localhost:8888/NOME_CLASSE/NOME_METODO//home/user/Downloads/";
+    private final String URL_NODE = "http://localhost:8888/NOME_CLASSE/NOME_METODO/DIRETORIO";
+
+    private String METODO_DEFAULT = "start";
+
+    private String CLASSE_GRAFO;
+
+    private String DIRETORIO_GRAFO;
 
     private List<String> nosDoPrograma;
 
@@ -79,6 +85,12 @@ public class Controller implements Initializable{
             arquivox = bufferedReaderXMaisMais.readLine();
         }
 
+        //Seta a classe do grafo
+        setCLASSE_GRAFO(primeiroArquivo.getName().replace(".x", ""));
+
+        //Seta o Diretorio do Grafo
+        setDIRETORIO_GRAFO(primeiroArquivo.getAbsolutePath().replace(primeiroArquivo.getName(), ""));
+
         //Arquivo arvore.txt
         BufferedReader bufferedReaderArvore = new BufferedReader(new FileReader(new File(caminho + ".arvore.txt")));
         nosDoPrograma = new ArrayList<>();
@@ -117,6 +129,11 @@ public class Controller implements Initializable{
             arquivoXMaisMaisStringBuffer.append(arquivox).append("\n");
             arquivox = bufferedReaderXMaisMais.readLine();
         }
+        //Seta a classe do grafo
+        setCLASSE_GRAFO(primeiroArquivo.getName().replace(".x", ""));
+
+        //Seta o Diretorio do Grafo
+        setDIRETORIO_GRAFO(primeiroArquivo.getAbsolutePath().replace(primeiroArquivo.getName(), ""));
 
         //Arquivo arvore.txt
         BufferedReader bufferedReaderArvore = new BufferedReader(new FileReader(new File(primeiroArquivo.getAbsolutePath() + ".arvore.txt")));
@@ -148,6 +165,7 @@ public class Controller implements Initializable{
         emprimeTextoX(xMaisMaisTxt);
         List<Mapeamento> mapeamento = processaMapeamentoSaida(arquivoSaidaTxt);
         criaGraficoPizza(mapeamento, nosDoPrograma);
+        gerarGrafoBtn();
 
     }
 
@@ -283,12 +301,53 @@ public class Controller implements Initializable{
     }
 
     public void gerarGrafoBtn(){
-        webViewGrafo.getEngine().load("http://www.google.com.br");
+
+        String url = null;
+        String metodoInput =  metodoTxtField.getText();
+        System.out.println(getDIRETORIO_GRAFO());
+        setDIRETORIO_GRAFO(getDIRETORIO_GRAFO().replace("\\","/").replace(" ", "%20"));
+
+
+
+        if(metodoInput != null && !"".equals(metodoInput)) {
+            url = URL_NODE.replace("NOME_METODO", metodoInput)
+                          .replace("NOME_CLASSE", getCLASSE_GRAFO())
+                          .replace("DIRETORIO", getDIRETORIO_GRAFO());;
+        }else{
+            url = URL_NODE.replace("NOME_METODO", getMETODO_DEFAULT())
+                          .replace("NOME_CLASSE", getCLASSE_GRAFO())
+                          .replace("DIRETORIO", getDIRETORIO_GRAFO());
+        }
+
+        System.out.println(url);
+        webViewGrafo.getEngine().load(url);
     }
 
     public void infosBtn(){
         new Alert(Alert.AlertType.INFORMATION, infos).show();
     }
 
+    public String getMETODO_DEFAULT() {
+        return METODO_DEFAULT;
+    }
 
+    public void setMETODO_DEFAULT(String METODO_DEFAULT) {
+        this.METODO_DEFAULT = METODO_DEFAULT;
+    }
+
+    public String getCLASSE_GRAFO() {
+        return CLASSE_GRAFO;
+    }
+
+    public void setCLASSE_GRAFO(String CLASSE_GRAFO) {
+        this.CLASSE_GRAFO = CLASSE_GRAFO;
+    }
+
+    public String getDIRETORIO_GRAFO() {
+        return DIRETORIO_GRAFO;
+    }
+
+    public void setDIRETORIO_GRAFO(String DIRETORIO_GRAFO) {
+        this.DIRETORIO_GRAFO = DIRETORIO_GRAFO;
+    }
 }
