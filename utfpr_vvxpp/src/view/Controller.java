@@ -4,53 +4,33 @@ import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
+import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.net.URL;
+import java.util.*;
 
-public class Controller {
+public class Controller implements Initializable{
 
-    @FXML
-    private TextField inputCaminho;
+    private final String infos = "Projeto Desenvolvido Pela 1ª Turma de Engenharia de Software da UTFPR Campus Dois Vizinhos";
 
-    private FileChooser fileChooser;
+    //olamundo eh o nome da classe start o metod depois o caminho
+    private String URL_NODE = "http://localhost:8888/NOME_CLASSE/NOME_METODO//home/user/Downloads/";
 
-    private StringBuffer stringBuffer;
-
-    private StringBuffer stringBufferXPluPlus;
-
-    private List<String> nos = new ArrayList<>();
-
-    @FXML
-    private ScrollPane scrollPaneOutput;
-
-    @FXML
-    private AnchorPane panelnternoScroll;
-
-    private List<String> linhas = new ArrayList<>();
+    private List<String> nosDoPrograma;
 
     @FXML
     private PieChart graficoPizza;
-
-    @FXML
-    private Label lblQtNosExecut;
 
     @FXML
     private BarChart<Integer, Integer> barChartFx;
@@ -59,79 +39,124 @@ public class Controller {
     private CategoryAxis xAxis;
 
     @FXML
+    private Label lblQtNosExecut;
+
+    @FXML
     private TextField classeTxtField;
 
     @FXML
     private TextField metodoTxtField;
 
+    @FXML
+    private WebView webViewGrafo;
 
-    public void buscar() {
-        stringBuffer = new StringBuffer();
+    @FXML
+    private TextArea txtArquivoX;
 
-        fileChooser = new FileChooser();
-        fileChooser.setTitle("Selecione o Arquivo de Mapeamento");
-        File selectedFile = fileChooser.showOpenDialog(null);
-
-        File xPlusPlusSelected = null;
-        if (selectedFile != null) {
-            try {
-                BufferedReader bufferedReader = new BufferedReader(new FileReader(selectedFile));
-
-                String s = bufferedReader.readLine();
-
-                while (s != null) {
-                    stringBuffer.append(s);
-                    s = bufferedReader.readLine();
-                }
-
-                List<Mapeamento> maps = processaMapeamento(stringBuffer.toString());
-
-                fileChooser = new FileChooser();
-                fileChooser.setTitle("Selecione o X++");
-                xPlusPlusSelected = fileChooser.showOpenDialog(null);
-
-                BufferedReader bufferedReader2 = new BufferedReader(new FileReader(xPlusPlusSelected));
-
-                String s2 = bufferedReader2.readLine();
-                stringBufferXPluPlus = new StringBuffer();
-                linhas.add(s2);
-                while (s2 != null) {
-                    stringBufferXPluPlus.append(s2);
-                    s2 = bufferedReader2.readLine();
-                    linhas.add(s2);
-                }
-
-                fileChooser = new FileChooser();
-                fileChooser.setTitle("Selecione o Arquivo de nós");
-                xPlusPlusSelected = fileChooser.showOpenDialog(null);
-
-                BufferedReader bufferedReader3 = new BufferedReader(new FileReader(xPlusPlusSelected));
-
-                String s3 = bufferedReader3.readLine();
-                nos = new ArrayList<>();
-                nos.add(s3);
-                while (s3 != null) {
-                    s3= bufferedReader3.readLine();
-                    if(!"".equals(s3)){
-                        nos.add(s3);
-                    }
-                }
-
-                processaContextoGrafico(maps);
-
-                criaGraficoPizza(maps);
-
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        try {
+            if(Main.getCaminhoArquivo() != null) {
+                buscar(Main.getCaminhoArquivo());
             }
+        } catch (FileNotFoundException e) {
+            System.err.println(e + e.getMessage());
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
         }
+    }
+
+    public void buscar(String caminho) throws IOException {
+
+
+        //Arquivo X++
+        File primeiroArquivo = new File(caminho);
+        BufferedReader bufferedReaderXMaisMais = new BufferedReader(new FileReader(primeiroArquivo));
+        String arquivox = bufferedReaderXMaisMais.readLine();
+        StringBuffer arquivoXMaisMaisStringBuffer = new StringBuffer();
+        while (arquivox != null){
+            arquivoXMaisMaisStringBuffer.append(arquivox).append("\n");
+            arquivox = bufferedReaderXMaisMais.readLine();
+        }
+
+        //Arquivo arvore.txt
+        BufferedReader bufferedReaderArvore = new BufferedReader(new FileReader(new File(caminho + ".arvore.txt")));
+        nosDoPrograma = new ArrayList<>();
+        String noAtual = bufferedReaderArvore.readLine();
+        nosDoPrograma.add(noAtual);
+        while (noAtual != null){
+            noAtual = bufferedReaderArvore.readLine();
+            nosDoPrograma.add(noAtual);
+        }
+
+        //Arquivo saida.txt
+        String caminhoSaida = caminho.replace(primeiroArquivo.getName(), "saida.txt");
+        BufferedReader bufferedReaderSaida = new BufferedReader(new FileReader(new File(caminhoSaida)));
+        StringBuffer arquivoSaidaBuffer = new StringBuffer();
+        String arqSaida = bufferedReaderSaida.readLine();
+        while (arqSaida != null){
+            arquivoSaidaBuffer.append(arqSaida);
+            arqSaida = bufferedReaderSaida.readLine();
+        }
+
+
+        processaTudo(arquivoXMaisMaisStringBuffer.toString(), nosDoPrograma, arquivoSaidaBuffer.toString());
 
     }
 
-    public List<Mapeamento> processaMapeamento(String a) {
+    public void buscar() throws IOException {
+
+        FileChooser fileChooser = new FileChooser();
+
+        //Arquivo X++
+        File primeiroArquivo = fileChooser.showOpenDialog(null);
+        BufferedReader bufferedReaderXMaisMais = new BufferedReader(new FileReader(primeiroArquivo));
+        String arquivox = bufferedReaderXMaisMais.readLine();
+        StringBuffer arquivoXMaisMaisStringBuffer = new StringBuffer();
+        while (arquivox != null){
+            arquivoXMaisMaisStringBuffer.append(arquivox).append("\n");
+            arquivox = bufferedReaderXMaisMais.readLine();
+        }
+
+        //Arquivo arvore.txt
+        BufferedReader bufferedReaderArvore = new BufferedReader(new FileReader(new File(primeiroArquivo.getAbsolutePath() + ".arvore.txt")));
+        nosDoPrograma = new ArrayList<>();
+        String noAtual = bufferedReaderArvore.readLine();
+        nosDoPrograma.add(noAtual);
+        while (noAtual != null){
+            noAtual = bufferedReaderArvore.readLine();
+            nosDoPrograma.add(noAtual);
+        }
+
+        //Arquivo saida.txt
+        String caminho = primeiroArquivo.getAbsolutePath();
+        String caminhoSaida = caminho.replace(primeiroArquivo.getName(), "saida.txt");
+        BufferedReader bufferedReaderSaida = new BufferedReader(new FileReader(new File(caminhoSaida)));
+        StringBuffer arquivoSaidaBuffer = new StringBuffer();
+        String arqSaida = bufferedReaderSaida.readLine();
+        while (arqSaida != null){
+            arquivoSaidaBuffer.append(arqSaida);
+            arqSaida = bufferedReaderSaida.readLine();
+        }
+
+
+        processaTudo(arquivoXMaisMaisStringBuffer.toString(), nosDoPrograma, arquivoSaidaBuffer.toString());
+    }
+
+    public void processaTudo(String xMaisMaisTxt,  List<String> nosDoPrograma, String arquivoSaidaTxt){
+
+        emprimeTextoX(xMaisMaisTxt);
+        List<Mapeamento> mapeamento = processaMapeamentoSaida(arquivoSaidaTxt);
+        criaGraficoPizza(mapeamento, nosDoPrograma);
+
+    }
+
+    public void emprimeTextoX(String s) {
+        txtArquivoX.clear();
+        txtArquivoX.setText(s);
+    }
+
+    public List<Mapeamento> processaMapeamentoSaida(String a) {
 
         String vectorMap[] = a.replace("{", "1").split("\\|");
         List<Mapeamento> mapeamentos = new ArrayList<>();
@@ -160,44 +185,14 @@ public class Controller {
         return mapeamentos;
     }
 
-    public void processaContextoGrafico(List<Mapeamento> maps) {
-
-        int posicaox = 15;
-        int posicaoy = 13;
-
-        Canvas canvas = new Canvas(637, 327);
-
-        GraphicsContext gc2 = canvas.getGraphicsContext2D();
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-
-        gc2.setFill(Color.BLUE);
-        gc.setFill(Color.RED);
-        gc.setStroke(Color.BLACK);
-        gc.setLineWidth(2);
-        Font theFont = Font.font("Times New Roman", FontWeight.BOLD, 12);
-        gc.setFont(theFont);
-        gc2.setFont(theFont);
-
-        panelnternoScroll.getChildren().add(canvas);
-
-
-        for (int i = 0; i < linhas.size(); i++) {
-            posicaoy = posicaoy + 13;
-
-            gc.fillText(linhas.get(i), posicaox, posicaoy);
-        }
-
-
-    }
-
-    public void criaGraficoPizza(List<Mapeamento> maps) {
+    public void criaGraficoPizza(List<Mapeamento> maps, List<String> nos) {
     	graficoPizza.getData().clear();
     	barChartFx.getData().clear();
 
         Integer totalExecutado = 0;
 
 
-        stringBufferXPluPlus.trimToSize();
+       // stringBufferXPluPlus.trimToSize();
 
         Map<Integer, Integer> nosQtExecutado = new HashMap();
 
@@ -287,12 +282,13 @@ public class Controller {
 
     }
 
-   /* public void gerarGrafoBtn(){
-        try {
-            Main.generate(classeTxtField.getText(), metodoTxtField.getText());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
+    public void gerarGrafoBtn(){
+        webViewGrafo.getEngine().load("http://www.google.com.br");
+    }
+
+    public void infosBtn(){
+        new Alert(Alert.AlertType.INFORMATION, infos).show();
+    }
+
 
 }
