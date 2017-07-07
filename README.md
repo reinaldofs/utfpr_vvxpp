@@ -6,6 +6,8 @@ Turma de 2014/02
   - Eclipse e git.
   - Instalar o plugin [JavaCC] no eclipse.
   - Baixar o [Jasmin].
+  - NodeJS 8 e npm
+  - Maven
 
 ## Clonar o Repositório
 ```sh
@@ -43,6 +45,13 @@ java -jar ~/jasmin-2.4/jasmin.jar olamundo.x.olamundo.jas
 java -classpath .:../src olamundo
 ```
 ![N|Solid](https://cldup.com/Kxt8eu5EQY.png)
+
+### 4º Passo
+```sh
+cd ../cfg-server
+npm install
+npm start
+```
 
 
 ## Referências
