@@ -5,3 +5,7 @@
 utfpr_vvxpp/bin/
 
 *.jas
+
+\.recommenders/
+
+\.metadata/
