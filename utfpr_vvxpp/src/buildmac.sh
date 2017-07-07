@@ -16,5 +16,5 @@ cp "$fname.class" "../output/$3"
 cp "saida.txt" "../output/$3"
 cp "$1" "../output/$3"
 
-java -jar cobertura.jar
+java -jar cobertura.jar "../output/$3/$2"
 
